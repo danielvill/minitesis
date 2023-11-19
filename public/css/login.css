@@ -1,0 +1,15 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+.form-control {
+    background-color: #f6f7f8;
+    color: white;
+}
+.btn {
+    background-color: #007bff;
+    color: white;
+}
