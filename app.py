@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import flash, Flask, render_template, request, redirect, url_for
 from controllers.database import dbConnection as dbase
 #from modules.product import Product
 from modules.registro import Registro
@@ -31,8 +31,9 @@ def login():
         #  redirigir a una página LLamado client.html
         return redirect(url_for('bienvenido'))#Nombre de la funcion @app.route('/client')
     else:
-        # Credenciales no válidas, puedes mostrar un mensaje de error
-        return 'Usuario o contraseña incorrectos'
+        # Credenciales no válidas, puedes mostrar un mensaje de error y cada vez que se recargue la pagina no salga ese mensaje error
+        flash('Usuario o contraseña incorrectos')
+        return redirect(url_for('index'))
     return render_template('client.html')
     
 
