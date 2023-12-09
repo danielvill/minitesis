@@ -2,7 +2,7 @@ from flask import flash, Flask, render_template, request,jsonify, redirect, url_
 from controllers.database import dbConnection as dbase
 from modules.client import Client
 from modules.registro import Registro
-
+from modules.product import Product
 
 db = dbase()
 
@@ -63,9 +63,6 @@ def addRegistros():
         return notFound()
 
 #Ruta de cliente e ingresado de los mismo
-
-
-
 @app.route('/client', methods=['GET','POST'])
 def client():
     if request.method == 'POST':
@@ -101,10 +98,34 @@ def client():
         return render_template('client.html')
     
 
-#Ruta de Products
+# Ruta Productos
+#Agregar un select para el html 
 @app.route('/products')
-def prod():
-    return render_template('products.html')
+def products():
+    select = db['clientes']
+    nombres = select.find({}, {'nombre': 1})
+    return render_template('products.html', nombres=nombres)
+
+
+# Agregar los productos
+@app.route('/products', methods=['POST'])
+def addProduct():
+    products = db['products']
+    nombre = request.form.get('nombre')  # Cambia 'nombres' a 'nombre'
+    codigos = request.form.getlist('codigo[]')
+    cantidades = request.form.getlist('cantidad[]')
+    precios = request.form.getlist('precio[]')
+    resultados = request.form.getlist('resultado[]')  # Cambia 'resultado' a 'resultados'
+    total = request.form.get('total')
+
+    for codigo, cantidad, precio, resultado in zip(codigos, cantidades, precios, resultados):  # Cambia 'resultado' a 'resultados'
+        if codigo and cantidad and precio and resultado:
+            product = Product(nombre, codigo, precio, cantidad, resultado, total)  # Agrega 'nombre' y 'total' como argumentos
+            products.insert_one(product.proDBCollection())
+
+    return redirect(url_for('products'))
+
+
 
 
 #Ruta de Pay

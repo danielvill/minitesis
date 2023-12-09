@@ -20,12 +20,89 @@
             </div>
         </nav>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <h1 class="h2">Modulo de Productos</h1>
-            <p>Aquí es donde se mostraría el contenido de las páginas enlazadas en la barra lateral de navegación.
-            </p>
+            <h1>Ingresado de Productos</h1>
+            <div class="container">
+                
+                <form action="/products" method="POST" id="myForm">
+                    <select name="nombre">
+                        {% for nombre in nombres %}
+                        <option value="{{nombre['nombre']}}">{{nombre['nombre']}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <br>
+                    <div class="productos" >
+                        <input type="text" name="codigo[]" class=" codigo" placeholder="codigo">
+                        <input type="text" name="precio[]" class=" precio" placeholder="precio">
+                        <input type="text" name="cantidad[]" class=" cantidad" placeholder="cantidad">
+                        <input type="text" name="resultado[]" class=" resultado" placeholder="resultado">
+                        <a href="javascript:void(0);" class="remove_button">Eliminar</a>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="col-8"></div>
+                        <div class="col-5">
+                            <br>
+                            <br>
+                            <input type="text" name="total"  id="total" placeholder="Total">
+                            <br>
+                            <br>
+                            <button type="button" id="addButton" class="btn btn-primary ">Agregar Producto</button>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </main>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        var maxField = 20; // Número máximo de campos a agregar
+        var addButton = $('#addButton'); // Selector del botón de agregar
+        var wrapper = $('.productos'); // Contenedor de campo de entrada
+        var fieldHTML = '<div class="productos"><input type="text" name="codigo[]" class="codigo" placeholder="codigo"><input type="text" name="precio[]" class="precio" placeholder="precio"><input type="text" name="cantidad[]" class="cantidad" placeholder="cantidad"><input type="text" name="resultado[]" class="resultado" placeholder="resultado"><a href="javascript:void(0);" class="remove_button">Eliminar</a></div>'; // HTML del campo de entrada con un enlace para eliminar el campo
+        var x = 1; // Contador de campo inicial
 
+        // Una vez que se hace clic en el botón de agregar
+        $(addButton).click(function () {
+            // Verificar el número máximo de campos de entrada
+            if (x < maxField) {
+                x++; // Incrementar el contador de campo
+                $(wrapper).append(fieldHTML); // Agregar campo html
+            }
+        });
+
+        // Una vez que se hace clic en el enlace de eliminar
+        $(wrapper).on('click', '.remove_button', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove(); // Eliminar el div del campo de entrada
+            x--; // Decrementar el contador de campo
+        });
+
+        // Agrega esta función para calcular el resultado y la suma total
+        function calcularTotal() {
+            var total = 0;
+            //solo para que el apartado de productos sume los valores debo colocar el #productos   
+            $('.productos').each(function () {
+                var cantidad = parseFloat($(this).find('.cantidad').val()) || 0;
+                var precio = parseFloat($(this).find('.precio').val()) || 0;
+
+                // Calcula el resultado y actualiza el campo "Resultado"
+                var resultado = cantidad * precio;
+                $(this).find('.resultado').val(resultado);
+
+                // Suma al total
+                total += resultado;
+            });
+
+            // Actualiza el campo "Total"
+            $('#total').val(total);
+        }
+
+        // Llama a la función cuando se cargue la página y cuando se realicen cambios
+        calcularTotal();
+        $(wrapper).on('change', 'input', calcularTotal);
+    });
+</script>
 {% endblock %}
-s
