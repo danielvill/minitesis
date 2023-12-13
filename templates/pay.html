@@ -20,9 +20,46 @@
             </div>
         </nav>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <h1 class="h2">Modulo de Cobranzas</h1>
-            <p>Aquí es donde se mostraría el contenido de las páginas enlazadas en la barra lateral de navegación.
-            </p>
+
+            {% set grouped_products = {} %}
+            {% for product in products %}
+            {%- set key_tuple = (product.nombre, product.total) %}
+            {%- if key_tuple not in grouped_products %}
+            {%- set _ = grouped_products.update({key_tuple: []}) %}
+            {%- endif %}
+            {%- set _ = grouped_products[key_tuple].append(product) %}
+            {% endfor %}
+
+            {% for keys, productos in grouped_products.items() %}
+            <div class="cuadrado">
+                <label for="">Nombre</label>
+                <input type="text" class="" value="{{ keys[0] }}" name="nombre" readonly>
+                <input type="text" class="" value="{{ keys[1] }}" name="total" readonly>
+            </div>
+
+            {% for product in productos %}
+            <div class="cuadrado">
+                <form action="/edit/{{ keys[0] }}" method="POST">
+                    <label for="telefono">Código</label>
+                    <input type="text" class="form-control" value="{{ product.codigo }}" name="codigo" readonly>
+                    <label for="provincia">Cantidad</label>
+                    <input type="text" class="form-control" value="{{ product.cantidad }}" name="cantidad" readonly>
+                    <label for="precio">Precio</label>
+                    <input type="text" class="form-control" value="{{ product.precio }}" name="precio" readonly>
+                    <label for="resultado">Resultado</label>
+                    <input type="text" class="form-control" value="{{ product.resultado }}" name="resultado" readonly>
+                    <button class="btn btn-primary btn-sm mt-3" type="submit">Editar</button>
+                    <a href="{{ url_for('delete', product_nombre=cliente) }}"
+                        class="btn btn-danger btn-sm mt-3">Eliminar</a>
+                </form>
+            </div>
+            {% endfor %}
+
+            {% endfor %}
+
+
+
+
         </main>
     </div>
 </div>

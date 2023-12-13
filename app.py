@@ -9,12 +9,13 @@ db = dbase()
 app = Flask(__name__)
 app.secret_key = 'daniel123' # Es necesario tener una clave secreta para esto y el manejo de errores
 
+
+
 # ---- Rutas ----- 
 @app.route('/',methods=['GET','POST'])
 def index():
     
     return render_template('index.html')
-
 
 
 #--------Login ---------
@@ -77,16 +78,6 @@ def client():
         comentario = request.form['comentario']
         direccion = request.form['direccion']
 
-        # Imprime los valores en la consola esto es para comprobar los errores
-        print('Nombre:', nombre)
-        print('Teléfono:', telefono)
-        print('Provincia:', provincia)
-        print('Cantón:', canton)
-        print('Mapa:', mapa)
-        print('Referencia:', referencia)
-        print('Comentario:', comentario)
-        print('Dirección:', direccion)
-
         if nombre and telefono and provincia and canton and referencia and mapa and comentario and direccion:
             client = Client(nombre, telefono, provincia,canton,referencia,mapa,comentario,direccion)
             clientes.insert_one(client.cliDBCollection())
@@ -107,23 +98,33 @@ def products():
     return render_template('products.html', nombres=nombres)
 
 
-# Agregar los productos
+# Modificación en addProduct
 @app.route('/products', methods=['POST'])
 def addProduct():
     products = db['products']
-    nombre = request.form.get('nombre')  # Cambia 'nombres' a 'nombre'
+    nombre_cliente = request.form.get('nombre')
     codigos = request.form.getlist('codigo[]')
     cantidades = request.form.getlist('cantidad[]')
     precios = request.form.getlist('precio[]')
-    resultados = request.form.getlist('resultado[]')  # Cambia 'resultado' a 'resultados'
+    resultados = request.form.getlist('resultado[]')
     total = request.form.get('total')
 
-    for codigo, cantidad, precio, resultado in zip(codigos, cantidades, precios, resultados):  # Cambia 'resultado' a 'resultados'
-        if codigo and cantidad and precio and resultado:
-            product = Product(nombre, codigo, precio, cantidad, resultado, total)  # Agrega 'nombre' y 'total' como argumentos
-            products.insert_one(product.proDBCollection())
+    # Validar que se proporcionen datos
+    if nombre_cliente and codigos and cantidades and precios and resultados and total:
+        # Crear una lista de productos para el cliente
+        productos_cliente = []
 
-    return redirect(url_for('products'))
+        for codigo, cantidad, precio, resultado in zip(codigos, cantidades, precios, resultados):
+            if codigo and cantidad and precio and resultado:
+                producto = Product(nombre_cliente, codigo, precio, cantidad, resultado, total)
+                productos_cliente.append(producto.proDBCollection())
+
+        # Insertar todos los productos del cliente en la base de datos
+        products.insert_many(productos_cliente)
+
+        return redirect(url_for('products'))
+
+    return notFound()
 
 
 
@@ -132,7 +133,37 @@ def addProduct():
 
 @app.route('/pay')
 def pago():
-    return render_template('pay.html')
+    products = db['products'].find()
+    return render_template('pay.html', products=products)
+
+#Vista de las deudas -----------------------
+
+#Metodo Eliminar Pay
+@app.route('/delete/<string:product_nombre>')
+def delete(product_nombre):
+    products = db['products']
+    products.delete_one({'nombre': product_nombre})
+    return redirect(url_for('pago'))
+
+#Metodo Editar Pay
+
+@app.route('/edit/<string:product_nombre>', methods=['GET','POST'])
+def edit(product_nombre):
+    products = db['products']
+    nombre_cliente = request.form['nombre_cliente']
+    codigos = request.form['codigo']
+    cantidades = request.form['cantidad']
+    precios = request.form['precio']
+    resultados = request.form['resultado']
+    total = request.form['total']
+
+    if nombre_cliente and codigos and cantidades and resultados and precios and total:
+        products.update_one({'nombre': product_nombre}, {'$set': {'nombre': nombre_cliente, 'codigo': codigos, 'cantidad': cantidades ,'precio':precios,'resultado':resultados, 'total':total }})
+        return redirect(url_for('pago'))
+    else:
+        return print('No se muestra nada')
+
+
 
 # Este es para manejo de errores
 @app.errorhandler(404)
@@ -145,4 +176,4 @@ def notFound(error=None):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=3000)
