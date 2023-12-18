@@ -1,4 +1,4 @@
-from flask import flash, Flask, render_template, request,jsonify, redirect, url_for
+from flask import flash, Flask, render_template, request,Response ,jsonify, redirect, url_for
 from controllers.database import dbConnection as dbase
 from modules.client import Client
 from modules.registro import Registro
@@ -89,6 +89,45 @@ def client():
         return render_template('client.html')
     
 
+#Este es para Editar a todos los clientes de mi base de datos    
+@app.route('/v_client')
+def editarclient():
+    cliente = db['clientes'].find()
+    return render_template('v_client.html', clientes=cliente)
+    
+
+#Metodo Eliminar CLientes
+@app.route('/delete_cl/<string:client_name>')
+def delete_client(client_name):#Pasa la funcion al form osea al boton
+    cliente = db['clientes']
+    cliente.delete_one({'nombre' : client_name})
+    print("No se muestrra los resultrados")
+    return redirect(url_for('editarclient'))
+
+# Metodo Para editar el cliente
+#Method Put
+@app.route('/edit_cl/<string:client_name>', methods=['GET', 'POST'])#Para editar debes colocar edit_cl en la misma ruta
+def edit_c(client_name):
+    cliente = db['clientes']
+    nombre = request.form['nombre']
+    telefono = request.form['telefono']
+    provincia = request.form['provincia']
+    canton = request.form['canton']
+    referencia = request.form['referencia']
+    mapa = request.form['mapa']
+    comentario = request.form['comentario']
+    direccion = request.form['direccion']
+
+    if nombre and telefono and provincia and canton and referencia and mapa and comentario and direccion: 
+        cliente.update_one({'nombre' : client_name}, {'$set' : {'nombre' : nombre, 'telefono' : telefono, 'provincia' : provincia ,'canton':canton,'referencia':referencia,'mapa':mapa,'comentario':comentario,'direccion':direccion}})
+        response = jsonify({'message' : 'Clientes ' + client_name + ' actualizado correctamente'})
+        return redirect(url_for('editarclient'))
+    else:
+        return notFound()
+    
+
+
+
 # Ruta Productos
 #Agregar un select para el html 
 @app.route('/products')
@@ -108,15 +147,18 @@ def addProduct():
     precios = request.form.getlist('precio[]')
     resultados = request.form.getlist('resultado[]')
     total = request.form.get('total')
+    fecha_p = request.form.get('fecha_p')
+    fecha_co =request.form.get('fecha_co')
 
+    
     # Validar que se proporcionen datos
-    if nombre_cliente and codigos and cantidades and precios and resultados and total:
+    if nombre_cliente and codigos and cantidades and precios and resultados and total and fecha_p and fecha_co:
         # Crear una lista de productos para el cliente
         productos_cliente = []
 
         for codigo, cantidad, precio, resultado in zip(codigos, cantidades, precios, resultados):
             if codigo and cantidad and precio and resultado:
-                producto = Product(nombre_cliente, codigo, precio, cantidad, resultado, total)
+                producto = Product(nombre_cliente, codigo, precio, cantidad, resultado, total,fecha_p,fecha_co)
                 productos_cliente.append(producto.proDBCollection())
 
         # Insertar todos los productos del cliente en la base de datos
@@ -150,18 +192,22 @@ def delete(product_nombre):
 @app.route('/edit/<string:product_nombre>', methods=['GET','POST'])
 def edit(product_nombre):
     products = db['products']
-    nombre_cliente = request.form['nombre_cliente']
+    nombre_cliente = request.form['nombre']
     codigos = request.form['codigo']
     cantidades = request.form['cantidad']
     precios = request.form['precio']
     resultados = request.form['resultado']
     total = request.form['total']
+    fecha_p = request.form['fecha_p']
+    fecha_co =request.form['fecha_co']
 
-    if nombre_cliente and codigos and cantidades and resultados and precios and total:
-        products.update_one({'nombre': product_nombre}, {'$set': {'nombre': nombre_cliente, 'codigo': codigos, 'cantidad': cantidades ,'precio':precios,'resultado':resultados, 'total':total }})
+    if nombre_cliente and codigos and cantidades and resultados and precios and total and fecha_p and fecha_co:
+        products.update_one({'nombre': product_nombre}, {'$set': {'nombre': nombre_cliente, 'codigo': codigos, 'cantidad': cantidades ,'precio':precios,'resultado':resultados, 'total':total ,'fecha_p':fecha_p, 'fecha_co':fecha_co  }})
         return redirect(url_for('pago'))
     else:
         return print('No se muestra nada')
+
+
 
 
 
