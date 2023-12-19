@@ -1,0 +1,12 @@
+.cover {
+    background-color: #EC7C26;
+    height: 100px;
+    width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cover h1 {
+    font-size: 2.5em;
+    color: white;
+}
