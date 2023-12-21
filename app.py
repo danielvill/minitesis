@@ -64,7 +64,7 @@ def addRegistros():
         return notFound()
 
 #Ruta de cliente e ingresado de los mismo
-@app.route('/client', methods=['GET','POST'])
+@app.route('/admin/client', methods=['GET','POST'])
 def client():
     if request.method == 'POST':
         # Aquí va tu código para manejar el POST
@@ -86,14 +86,14 @@ def client():
             return notFound()
     else:
         # Aquí va tu código para manejar el GET
-        return render_template('client.html')
+        return render_template('admin/client.html')
     
 
 #Este es para Editar a todos los clientes de mi base de datos    
-@app.route('/v_client')
+@app.route('/admin/v_client')
 def editarclient():
     cliente = db['clientes'].find()
-    return render_template('v_client.html', clientes=cliente)
+    return render_template('admin/v_client.html', clientes=cliente)
     
 
 #Metodo Eliminar CLientes
@@ -130,15 +130,15 @@ def edit_c(client_name):
 
 # Ruta Productos
 #Agregar un select para el html 
-@app.route('/products')
+@app.route('/admin/products')
 def products():
     select = db['clientes']
     nombres = select.find({}, {'nombre': 1})
-    return render_template('products.html', nombres=nombres)
+    return render_template('admin/products.html', nombres=nombres)
 
 
 # Modificación en addProduct
-@app.route('/products', methods=['POST'])
+@app.route('/admin/products', methods=['POST'])
 def addProduct():
     products = db['products']
     nombre_cliente = request.form.get('nombre')
@@ -173,10 +173,10 @@ def addProduct():
 
 #Ruta de Pay
 
-@app.route('/pay')
+@app.route('/admin/pay')
 def pago():
     products = db['products'].find()
-    return render_template('pay.html', products=products)
+    return render_template('admin/pay.html', products=products)
 
 #Vista de las deudas -----------------------
 

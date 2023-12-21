@@ -1,0 +1,78 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
+            <div class="cover">
+                <h1>Vista Productos</h1>
+            </div>
+            <br>
+
+            {% set grouped_products = {} %}
+            {% for product in products %}
+            {%- set key_tuple = (product.nombre, product.total) %}
+            {%- if key_tuple not in grouped_products %}
+            {%- set _ = grouped_products.update({key_tuple: []}) %}
+            {%- endif %}
+            {%- set _ = grouped_products[key_tuple].append(product) %}
+            {% endfor %}
+
+            {% for keys, productos in grouped_products.items() %}
+           
+
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><label for="">Nombre</label></th>
+                            <th><label for="">Total</label></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><input type="text" class="input-group-text" value="{{ keys[0] }}" name="nombre"></th>
+                            <th><input type="text" class="input-group-text" value="{{ keys[1] }}" name="total"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% for product in productos %}
+            <div class="vista">
+                <form action="/edit/{{ keys[0] }}" method="POST">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><label for="telefono">Código</label></th>
+                                <th><label for="provincia">Cantidad</label></th>
+                                <th><label for="precio">Precio</label></th>
+                                <th><label for="resultado">Resultado</label></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th><input type="text" class="" value="{{ product.codigo }}" name="codigo"></th>
+                                <th><input type="text" class="" value="{{ product.cantidad }}" name="cantidad"></th>
+                                <th><input type="text" class="" value="{{ product.precio }}" name="precio" ></th>
+                                <th><input type="text" class="" value="{{ product.resultado }}" name="resultado"></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary btn-sm mt-3" type="submit">Editar</button>
+                    <a href="{{ url_for('delete', product_nombre=cliente) }}"
+                        class="btn btn-danger btn-sm mt-3">Eliminar</a>
+                </form>
+
+            </div>
+            {% endfor %}
+
+            {% endfor %}
+
+
+
+
+        </main>
+   
+
+{% endblock %}

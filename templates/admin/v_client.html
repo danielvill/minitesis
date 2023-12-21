@@ -1,0 +1,86 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
+            <div class="cover">
+                <h1>Vista Cliente</h1>
+            </div>
+             
+            <br>
+            {% for client in clientes %}
+
+
+            <div class="col">
+                <li class="list-group-item mb-3">
+                    <form action="/edit_cl/{{client.nombre}}" method="POST">
+
+                        <table class="table table-striped">
+                            <thead>
+                                <th scope="col"><small>Nombre</small></th>
+                                
+                                <th scope="col"><small>Telefono</small></th>
+                                
+                                <th scope="col"><small>Provincia</small></th>
+                                
+                                <th scope="col"><small>Canton</small></th>
+                                
+                                <th scope="col"><small>Direccion</small></th>
+                               
+                                <th scope="col"><small>Referencia</small></th>
+                               
+                                <th scope="col"><small>Mapa</small></th>
+                                
+                                <th scope="col"><small>Comentario</small></th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"> <input type="text" class="" value="{{client.nombre}}"
+                                            name="nombre"></th>
+                                    <td>
+                                        <input type="text" class="" value="{{client.telefono}}"
+                                            name="telefono">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="" value="{{client.provincia}}"
+                                        name="provincia">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="" value="{{client.canton}}"
+                                            name="canton">
+                                    </td>
+                                    <td>
+                                        <input type="text" class=""
+                                        value="{{client.direccion}}" name="direccion">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="" value="{{client.referencia}}"
+                                            name="referencia">
+                                    </td>
+                                    <td>
+                                        <input type="text" class=""
+                                            value="{{client.mapa}}" name="mapa">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="" value="{{client.comentario}}"
+                                            name="comentario">
+                                    </td>        
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <button class="btn btn-primary btn-sm mt-3" type="submit">Editar</button>
+                        <a href="{{url_for('delete_client', client_name=client.nombre)}}"
+                            class="btn btn-danger btn-sm mt-3">Eliminar</a>
+
+                    </form>
+                </li>
+            </div>
+
+            {% endfor %}
+
+        </main>
+    
+
+{% endblock %}

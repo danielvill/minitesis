@@ -5,37 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/index.css">
     <title>Login</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f8f9fa;
-        }
-
-        .form-control {
-            background-color: #f6f7f8;
-            color: white;
-        }
-
-        .btn {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
+   
 </head>
 
 <body>
     <form action="/index" method="POST" class="text-center" style="width: 300px;">
-        <img class="mb-4" src="" alt="" width="72" height="72">
+        <img class="mb-4" src="/static/img/logo.png" alt="" width="100" height="100">
         <h1 class="h3 mb-3 font-weight-normal">Por favor inicia sesión</h1>
         <label for="inputuser" class="sr-only">Usuario</label>
         <input type="text" name="user" class="form-control mb-3" placeholder="Usuario" required autofocus>
         <label for="inputPassword" class="sr-only">Contraseña</label>
         <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required autofocus>
-        <p><a href="{{ url_for('regi') }}">Login</a></p>
+        <a class="btn btn-lg btn-primary btn-block" href="{{ url_for('regi') }}">Login</a>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
