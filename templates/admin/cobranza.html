@@ -1,0 +1,44 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
+    <div class="cover">
+        <br>
+        <br>
+        <h1>Modulo de Cobranza</h1>
+    </div>
+    <br>
+
+    <div class="container">
+        <div class="row">
+            {% set grouped_products = {} %}
+            {% for product in products %}
+            {%- set key_tuple = (product.nombre, product.total,product.fecha_co,product.fecha_p) %}
+            {%- if key_tuple not in grouped_products %}
+            {%- set _ = grouped_products.update({key_tuple: []}) %}
+            {%- endif %}
+            {%- set _ = grouped_products[key_tuple].append(product) %}
+            {% endfor %}
+            {% for keys, productos in grouped_products.items() %}
+            <div class="col-lg-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><input type="text" class="input-group-text" value="{{ keys[0] }}" name="nombre"></h5>
+                        <label for=""><input type="text" class="input-group-text" value="{{ keys[1] }}" name="total"></label>
+                        <label for="fecha_p"><input type="text" class="input-group-text" value="{{keys[2]}}" name="fecha_p"></label>
+                        <label for="fecha_co"><input type="text" class="input-group-text" value="{{keys[3]}}" name="fecha_co"></label>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            {% if loop.index % 3 == 0 %}
+                </div>
+                <div class="row">
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    
+</main>
+{% endblock %}

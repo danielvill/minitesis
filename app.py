@@ -3,6 +3,7 @@ from controllers.database import dbConnection as dbase
 from modules.client import Client
 from modules.registro import Registro
 from modules.product import Product
+from modules.cobranza import Cobranza
 
 db = dbase()
 
@@ -192,22 +193,37 @@ def delete(product_nombre):
 @app.route('/edit/<string:product_nombre>', methods=['GET','POST'])
 def edit(product_nombre):
     products = db['products']
-    nombre_cliente = request.form['nombre']
-    codigos = request.form['codigo']
-    cantidades = request.form['cantidad']
-    precios = request.form['precio']
-    resultados = request.form['resultado']
-    total = request.form['total']
-    fecha_p = request.form['fecha_p']
-    fecha_co =request.form['fecha_co']
+    nombre_cliente = request.form.get('nombre')
+    codigos = request.form.get('codigo')
+    cantidades = request.form.get('cantidad')
+    precios = request.form.get('precio')
+    resultados = request.form.get('resultado')
+    total = request.form.get('total')
+    fecha_p = request.form.get('fecha_p')
+    fecha_co = request.form.get('fecha_co')
+    print("hola amigo")
 
     if nombre_cliente and codigos and cantidades and resultados and precios and total and fecha_p and fecha_co:
         products.update_one({'nombre': product_nombre}, {'$set': {'nombre': nombre_cliente, 'codigo': codigos, 'cantidad': cantidades ,'precio':precios,'resultado':resultados, 'total':total ,'fecha_p':fecha_p, 'fecha_co':fecha_co  }})
         return redirect(url_for('pago'))
     else:
-        return print('No se muestra nada')
+       
+        return 'No se muestra nada'
+
+# Modulo de cobranza y muestra del form 
+@app.route('/admin/cobranza')
+def cobranza():
+    products =db.products.find() 
+    return render_template('admin/cobranza.html', products=products)
 
 
+
+
+#Modulo de reporte
+@app.route('/admin/reporte')
+def reporte():
+    return render_template('admin/reporte.html')
+    
 
 
 

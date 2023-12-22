@@ -1,5 +1,5 @@
 class Cobranza:
-    def __init__(self,fecha_co,fecha_p,nombre,total,codigo,cantidad,precio):
+    def __init__(self,fecha_co,fecha_p,nombre,total,codigo,cantidad,precio,resultado,abono):
         self.nombre = nombre
         self.fecha_co = fecha_co
         self.fecha_p = fecha_p
@@ -7,6 +7,9 @@ class Cobranza:
         self.cantidad= cantidad
         self.precio = precio
         self.total = total
+        self.resultado=resultado
+        self.abono=abono
+
         
 
     def cobDBCollection(self):
@@ -17,6 +20,8 @@ class Cobranza:
             'codigo': self.codigo,
             'cantidad': self.cantidad,
             'precio': self.precio,
-            'total': self.total
+            'total': self.total,
+            'resultado':self.resultado,
+            'abono':self.abono
             
         }
