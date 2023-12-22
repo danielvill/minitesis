@@ -211,6 +211,7 @@ def edit(product_nombre):
         return 'No se muestra nada'
 
 # Modulo de cobranza y muestra del form 
+# En flask no se permite que otra funcion tenga la misma propiedades cada pagina es distinta con su respectiva funcion
 @app.route('/admin/cobranza')
 def cobranza():
     products =db.products.find() 
