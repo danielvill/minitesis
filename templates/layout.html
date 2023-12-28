@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mi aplicación Flask</title>
+
+    <link rel="stylesheet" href="/static/css/menu.css">
+    <link rel="stylesheet" href="/static/css/portada.css">
+    <link rel="stylesheet" href="/static/css/producto.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Afectacion al menu para que baje de acuerdo a lo que tenga en el contenido 
+    $(document).ready(function() {
+        let sidebar = $(".sidebar");
+        let mainContent = $("#main-content");
+    
+        $(window).scroll(function() {
+            let scrollTop = $(window).scrollTop();
+            let mainContentTop = mainContent.offset().top;
+            let mainContentHeight = mainContent.height();
+            let windowHeight = $(window).height();
+    
+            if (scrollTop > mainContentTop && scrollTop < mainContentTop + mainContentHeight - windowHeight) {
+                sidebar.css("top", scrollTop - mainContentTop);
+            } else if (scrollTop <= mainContentTop) {
+                sidebar.css("top", 0);
+            } else {
+                sidebar.css("top", mainContentHeight - windowHeight);
+            }
+        });
+    });
+    </script>
+
+    {% block content %}
+   
+    {% endblock %}
+
+
+</body>
+
+</html>
