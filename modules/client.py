@@ -1,13 +1,13 @@
 class Client:
-    def __init__(self, nombre, telefono, direccion,provincia,canton ,referencia,mapa,comentario):
+    def __init__(self, nombre, telefono, provincia,canton,direccion,referencia,mapa,comentario):
         self.nombre = nombre
         self.telefono = telefono
         self.provincia = provincia
         self.canton = canton
+        self.direccion = direccion
         self.referencia = referencia
         self.mapa = mapa
         self.comentario = comentario
-        self.direccion = direccion
 
     def cliDBCollection(self):
         return{
@@ -15,9 +15,10 @@ class Client:
             'telefono': self.telefono,
             'provincia': self.provincia,
             'canton': self.canton,
+            'direccion':self.direccion,
             'referencia': self.referencia,
             'mapa': self.mapa,
-            'comentario': self.comentario,
-            'direccion':self.direccion
+            'comentario': self.comentario
+            
 
         }

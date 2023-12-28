@@ -74,13 +74,14 @@ def client():
         telefono = request.form['telefono']
         provincia = request.form['provincia']
         canton = request.form['canton']
+        direccion = request.form['direccion']
         mapa=request.form['mapa']
         referencia = request.form['referencia']
         comentario = request.form['comentario']
-        direccion = request.form['direccion']
+        
 
-        if nombre and telefono and provincia and canton and referencia and mapa and comentario and direccion:
-            client = Client(nombre, telefono, provincia,canton,referencia,mapa,comentario,direccion)
+        if nombre and telefono and provincia and canton and direccion and referencia and mapa and comentario :
+            client = Client(nombre, telefono, provincia,canton,direccion,referencia,mapa,comentario)
             clientes.insert_one(client.cliDBCollection())
             return redirect(url_for('client'))#Este es para que se quede en la misma pagina
         else:
@@ -211,20 +212,42 @@ def edit(product_nombre):
         return 'No se muestra nada'
 
 # Modulo de cobranza y muestra del form 
-# En flask no se permite que otra funcion tenga la misma propiedades cada pagina es distinta con su respectiva funcion
 @app.route('/admin/cobranza')
 def cobranza():
     products =db.products.find() 
     return render_template('admin/cobranza.html', products=products)
 
+#Ingresado Para el modulo Cobranza
+@app.route('/admin/cobranza', methods=['GET','POST'])
+def r_reporte():
+    if request.method =='POST':
+        report=db['cobranza']
+        nombre=request.form['nombre']
+        total=request.form['total']
+        fecha_p=request.form['fecha_p']
+        fecha_co=request.form['fecha_co']
+        abono=request.form['abono']
+        fecha_ab=request.form['fecha_ab']
+        resultado=request.form['resultado']
+        pagado=request.form['pagado']
+        
 
-
+        if nombre and total and fecha_p and fecha_co and abono and fecha_ab and resultado and pagado:
+            r_reporte = Cobranza(nombre,total,fecha_p,fecha_co,abono,fecha_ab,resultado,pagado)
+            report.insert_one(r_reporte.cobDBCollection())
+            return redirect(url_for('reporte'))
+        else:
+            return notFound()
+    else:
+        return render_template('admin/reporte.html') 
 
 #Modulo de reporte
 @app.route('/admin/reporte')
 def reporte():
-    return render_template('admin/reporte.html')
+    report=db.cobranza.find()
+    return render_template('admin/reporte.html',cobranza=report)
     
+   
 
 
 

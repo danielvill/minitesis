@@ -8,7 +8,75 @@
                 <h1>Reporte</h1>
             </div>
 
+            {% for r_reporte in cobranza %}
+            <div class="tabla">
+
+            
+            <table class="table">
+                <thead>
+                    <th scope="col"><label for="">Nonbre</label></th>
+                    <th><label for="">total</label></th>
+                    <th><label for="">Fecha De Pedido</label></th>
+                    <th><label for="">Fecha Cobranza</label></th>
+                </thead>
+                <tbody>
+                    <td>
+                        <label for="">
+                            <input type="text" class="" value="{{r_reporte.nombre}}" readonly>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="" >
+                            <input type="text" class=""  value="{{r_reporte.total}}" readonly  >
+                        </label>
+                    </td>
+                    <td>
+                        <label for="" >
+                            <input type="text" value="{{r_reporte.fecha_p}}" class="" readonly>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="" >
+                            <input type="text" value="{{r_reporte.fecha_co}}" class="" readonly>
+                        </label>
+                    </td>
+                    
+                </tbody>
+            </table>
+            <table class="table">
+                <thead>
+                    <th><label for="">Abono</label></th>
+                    <th><label for="">Fecha Abono</label></th>
+                    <th><label for="">Saldo</label></th>
+                    <th><label for="">Estado</label></th>
+                </thead>
+                <tbody>
+                    <td>
+                        <label for="" >
+                            <input type="text" value="{{r_reporte.abono}}" class="" readonly>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="" >
+                            <input type="text" value="{{r_reporte.fecha_ab}}" class="" readonly>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="" >
+                            <input type="text" value="{{r_reporte.resultado}}" class="" readonly>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="" >
+                            <input type="text" value="{{r_reporte.pagado}}" class="" readonly>
+                        </label>
+                    </td>
+                </tbody>
+            </table>
+        </div>
+            {% endfor %}
+
         </main>
-     
+   
 
 {% endblock %}
