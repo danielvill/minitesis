@@ -3,84 +3,92 @@
 {% block content %}
 
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
-            <div class="cover">
-                <h1>Vista Cliente</h1>
-            </div>
-             
-            <br>
-            {% for client in clientes %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
+  <div class="cover">
+    <h1>Vista Cliente</h1>
+  </div>
+     
+  <br>
+  <div class="input-group flex-nowrap">
+    <span class="input-group-text" id="addon-wrapping">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+      </svg></span>
+    <input type="search"  id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda" aria-label="Username" aria-describedby="addon-wrapping">
+  </div>
+  
+  <br>
+  {% for client in clientes %}
+  <br>
+  <div class="col">
+    <li class="list-group-item mb-3">
+      <form action="/edit_cl/{{client.nombre}}" method="POST">
+        <div class="tabla">
+        <table class="">
+          <thead>
+            <th scope="col"><label>Nombre</label></th>
 
+            <th scope="col"><label>Telefono</label></th>
 
-            <div class="col">
-                <li class="list-group-item mb-3">
-                    <form action="/edit_cl/{{client.nombre}}" method="POST">
+            <th scope="col"><label>Provincia</label></th>
 
-                        <table class="table table-striped">
-                            <thead>
-                                <th scope="col"><small>Nombre</small></th>
-                                
-                                <th scope="col"><small>Telefono</small></th>
-                                
-                                <th scope="col"><small>Provincia</small></th>
-                                
-                                <th scope="col"><small>Canton</small></th>
-                                
-                                <th scope="col"><small>Direccion</small></th>
-                               
-                                <th scope="col"><small>Referencia</small></th>
-                               
-                                <th scope="col"><small>Mapa</small></th>
-                                
-                                <th scope="col"><small>Comentario</small></th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row"> <input type="text" class="" value="{{client.nombre}}"
-                                            name="nombre"></th>
-                                    <td>
-                                        <input type="text" class="" value="{{client.telefono}}"
-                                            name="telefono">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="" value="{{client.provincia}}"
-                                        name="provincia">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="" value="{{client.canton}}"
-                                            name="canton">
-                                    </td>
-                                    <td>
-                                        <input type="text" class=""
-                                        value="{{client.direccion}}" name="direccion">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="" value="{{client.referencia}}"
-                                            name="referencia">
-                                    </td>
-                                    <td>
-                                        <input type="text" class=""
-                                            value="{{client.mapa}}" name="mapa">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="" value="{{client.comentario}}"
-                                            name="comentario">
-                                    </td>        
-                                </tr>
-                                
-                            </tbody>
-                        </table>
-                        <button class="btn btn-primary btn-sm mt-3" type="submit">Editar</button>
-                        <a href="{{url_for('delete_client', client_name=client.nombre)}}"
-                            class="btn btn-danger btn-sm mt-3">Eliminar</a>
+            <th scope="col"><label>Canton</label></th>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"> <input type="text" class="" value="{{client.nombre}}" name="nombre"></th>
+              <td>
+                <input type="text" class="" value="{{client.telefono}}" name="telefono">
+              </td>
+              <td>
+                <input type="text" class="" value="{{client.provincia}}" name="provincia">
+              </td>
+              <td>
+                <input type="text" class="" value="{{client.canton}}" name="canton">
+              </td>
+            </tr>
+          </tbody>
+          <table>
+            <thead>
+              <th scope="col"><label>Direccion</label></th>
 
-                    </form>
-                </li>
-            </div>
+              <th scope="col"><label>Referencia</label></th>
 
-            {% endfor %}
+              <th scope="col"><label>Mapa</label></th>
 
-        </main>
-    
+              <th scope="col"><label>Comentario</label></th>
+
+            </thead>
+            <tbody>
+              <td>
+                <input type="text" class="" value="{{client.direccion}}" name="direccion">
+              </td>
+              <td>
+                <input type="text" class="" value="{{client.referencia}}" name="referencia">
+              </td>
+              <td>
+                <input type="text" class="" value="{{client.mapa}}" name="mapa">
+              </td>
+              <td>
+                <input type="text" class="" value="{{client.comentario}}" name="comentario">
+              </td>
+
+            </tbody>
+          </table>
+        </table>
+        <button class="btn btn-primary btn-sm mt-3" type="submit">Editar</button>
+        <a href="{{url_for('delete_client', client_name=client.nombre)}}"
+          class="btn btn-danger btn-sm mt-3">Eliminar</a>
+        </div>
+      </form>
+
+    </li>
+  </div>
+
+  {% endfor %}
+
+  <script src="/static/js/filtro.js"></script>
+</main>
+
 
 {% endblock %}

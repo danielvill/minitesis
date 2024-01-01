@@ -4,6 +4,8 @@ from modules.client import Client
 from modules.registro import Registro
 from modules.product import Product
 from modules.cobranza import Cobranza
+from modules.stadist import Estadistica
+
 
 db = dbase()
 
@@ -247,8 +249,14 @@ def reporte():
     report=db.cobranza.find()
     return render_template('admin/reporte.html',cobranza=report)
     
-   
 
+
+#Modulo de Estadistica
+
+@app.route('/admin/stadist')
+def estadistica():
+    report=db.cobranza.find()
+    return render_template('admin/stadist.html',cobranza=report)
 
 
 # Este es para manejo de errores

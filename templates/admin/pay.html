@@ -9,7 +9,14 @@
                 <h1>Vista Productos</h1>
             </div>
             <br>
-
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                  </svg></span>
+                <input type="search"  id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda" aria-label="Username" aria-describedby="addon-wrapping">
+              </div>
+              <br>
             {% set grouped_products = {} %}
             {% for product in products %}
             {%- set key_tuple = (product.nombre, product.total) %}
@@ -21,9 +28,9 @@
 
             {% for keys, productos in grouped_products.items() %}
            
-
-            <div class="table">
-                <table>
+           
+            <div class="">
+                <table class="table">
                     <thead>
                         <tr>
                             <th><label for="">Nombre</label></th>
@@ -39,7 +46,7 @@
                 </table>
             </div>
             {% for product in productos %}
-            <div class="vista">
+            <div class="tabla">
                 <form action="/edit/{{ keys[0] }}" method="POST">
                     <table class="table">
                         <thead>
@@ -51,7 +58,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <input type="hidden" value="{{product.nombre}}" name="nombre"></th>
                             <tr>
+                                
                                 <th><input type="text" class="" value="{{ product.codigo }}" name="codigo"></th>
                                 <th><input type="text" class="" value="{{ product.cantidad }}" name="cantidad"></th>
                                 <th><input type="text" class="" value="{{ product.precio }}" name="precio" ></th>
@@ -62,17 +71,14 @@
                     <button class="btn btn-primary btn-sm mt-3" type="submit">Editar</button>
                     <a href="{{ url_for('delete', product_nombre=cliente) }}"
                         class="btn btn-danger btn-sm mt-3">Eliminar</a>
-                </form>
-
-            </div>
+                    
+                    </form>
+                
+                </div>
             {% endfor %}
-
             {% endfor %}
-
-
-
-
+            
         </main>
-   
+        <script src="/static/js/filtro.js"></script>
 
 {% endblock %}
