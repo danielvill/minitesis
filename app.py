@@ -25,7 +25,7 @@ def index():
 @app.route('/index', methods=['GET','POST'])
 def login():
 
-  if request.method== 'POST' :
+   if request.method== 'POST' :
 
     user = request.form['user']
     password = request.form['password']
@@ -210,7 +210,6 @@ def edit(product_nombre):
         products.update_one({'nombre': product_nombre}, {'$set': {'nombre': nombre_cliente, 'codigo': codigos, 'cantidad': cantidades ,'precio':precios,'resultado':resultados, 'total':total ,'fecha_p':fecha_p, 'fecha_co':fecha_co  }})
         return redirect(url_for('pago'))
     else:
-       
         return 'No se muestra nada'
 
 # Modulo de cobranza y muestra del form 
