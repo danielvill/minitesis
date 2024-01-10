@@ -11,13 +11,16 @@
     <br>
     <br>
     <div class="input-group flex-nowrap">
-      <span class="input-group-text" id="addon-wrapping">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-        </svg></span>
-      <input type="search"  id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda" aria-label="Username" aria-describedby="addon-wrapping">
+        <span class="input-group-text" id="addon-wrapping">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                viewBox="0 0 16 16">
+                <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+            </svg></span>
+        <input type="search" id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda"
+            aria-label="Username" aria-describedby="addon-wrapping">
     </div>
-    
+
     <br>
     <div class="container">
         <div class="row">
@@ -30,6 +33,7 @@
             {%- set _ = grouped_products[key_tuple].append(product) %}
             {% endfor %}
             {% for keys, productos in grouped_products.items() %}
+
             <div class="col-lg-4">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
@@ -40,29 +44,37 @@
                                 <input type="text" class="input-group-text total" value="{{ keys[1] }}" name="total"
                                     class="total">
                             </label>
-                            <label for="">Fecha Pedido
-                                <label for="fecha_p"><input type="text" class="input-group-text" value="{{keys[2]}}"
-                                        name="fecha_p"></label>
-                            </label>
-                            <label for="">Fecha de Cobranza
-                                <label for="fecha_co"><input type="text" class="input-group-text fecha"
-                                        value="{{keys[3]}}" name="fecha_co"></label>
-                            </label>
-                            <label for="">Abono
-                                <label for=""><input type="text" class="input-group-text abono" name="abono">
+                            <!-- Campos ocultos que se mostrarán cuando se haga clic en el botón "Mostrar más" -->
+                            <div class="moreFields" style="display: none;">
+                                <label for="">Fecha Pedido
+                                    <label for="fecha_p"><input type="text" class="input-group-text" value="{{keys[2]}}"
+                                            name="fecha_p"></label>
                                 </label>
-                            </label>
-                            <label for="">Fecha del Abono
-                                <label for=""><input class="input-group-text" type="date" name="fecha_ab">
+                                <label for="">Fecha de Cobranza
+                                    <label for="fecha_co"><input type="text" class="input-group-text fecha"
+                                            value="{{keys[3]}}" name="fecha_co"></label>
                                 </label>
-                            </label>
-                            <label for=""> Suma Total - Abono
-                                <label for=""><input type="text" class="input-group-text resultado" name="resultado">
+                                <label for="">Abono
+                                    <label for=""><input type="text" class="input-group-text abono" name="abono">
+                                    </label>
                                 </label>
-                            </label>
-                            <label for="">Estado de la Deuda
-                                <input type="text" class="input-group-text" name="pagado">
-                            </label>
+                                <label for="">Fecha del Abono
+                                    <label for=""><input class="input-group-text" type="date" name="fecha_ab">
+                                    </label>
+                                </label>
+                                <label for=""> Suma Total - Abono
+                                    <label for=""><input type="text" class="input-group-text resultado"
+                                            name="resultado">
+                                    </label>
+                                </label>
+                                <label for="">Estado de la Deuda
+                                    <input type="text" class="input-group-text" name="pagado">
+                                </label>
+                            </div>
+                            
+                            <button type="button" class="btn btn-info showMoreButton">Mostrar más</button>
+                            <br>
+                            <br>
 
                             <button class="btn btn-primary" type="submit">Guardar</button>
                             <a href="#" class="btn btn-success">Whassatps</a>
@@ -80,6 +92,46 @@
     </div>
 
 </main>
+<script>
+    $(document).ready(function () {
+        $('button[type="submit"]').click(function (e) {
+            e.preventDefault();
+
+            var nombre = $('input[name="nombre"]').val();
+            var total = $('input[name="total"]').val();
+            var fecha_p = $('input[name="fecha_p"]').val();
+            var fecha_co = $('input[name="fecha_co"]').val();
+            var abono = $('input[name="abono"]').val();
+            var fecha_ab = $('input[name="fecha_ab"]').val();
+            var resultado = $('input[name="resultado"]').val();
+            var pagado = $('input[name="pagado"]').val();
+
+            if (nombre === "" || total === "" || fecha_p === "" || fecha_co === "" || abono === "" || fecha_ab === "" || resultado === "" || pagado === "") {
+                alert("Espacios en blanco");
+            } else {
+                $.ajax({
+                    url: '/admin/cobranza',
+                    data: $('form').serialize(),
+                    type: 'POST',
+                    success: function (response) {
+                        alert("Envío exitoso");
+                        location.reload(); // Refresca la página
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+        });
+    });
+    // Este codigo sirve para que el boton mostrar mas se pueda visualizar bien 
+    $(document).ready(function() {
+  $('.showMoreButton').click(function() {
+    $(this).prev('.moreFields').slideToggle();
+  });
+});
+
+</script>
 <script src="/static/js/cobranza.js"></script>
 <script src="/static/js/re_co.js"></script>
 {% endblock %}

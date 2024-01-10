@@ -1,9 +1,6 @@
 {% extends "admin/layout.html" %}
 
 {% block content %}
-
-
-
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
             <div class="cover">
                 <h1>Vista Productos</h1>
@@ -25,10 +22,7 @@
             {%- endif %}
             {%- set _ = grouped_products[key_tuple].append(product) %}
             {% endfor %}
-
             {% for keys, productos in grouped_products.items() %}
-           
-           
             <div class="">
                 <table class="table">
                     <thead>

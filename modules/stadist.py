@@ -8,6 +8,6 @@ class Estadistica:
         return{
             'nombre': self.nombre,
             'fecha_co': self.fecha_co,
-            'fehca_ab':self.fecha_ab
+            'fecha_ab':self.fecha_ab
             
         }

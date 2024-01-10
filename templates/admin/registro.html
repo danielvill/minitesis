@@ -1,0 +1,54 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
+    <div class="cover">
+        <h1>Administrador Registro de Usuarios</h1>
+    </div>
+    <form action="/admin/registro" method="POST" id="myForm">
+        <div class="form-group">
+            <label for="inputuser">Ponga su correo</label>
+            <input type="email" name="correo" class="form-control mb-3" placeholder="Correo" required autofocus>
+            <label for="inputuser">Nombre de Usuario</label>
+            <input type="text" name="user" class="form-control mb-3" placeholder="Usuario" required autofocus>
+            <label for="inputPassword">Contraseña</label>
+            <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required
+                autofocus>
+            <button class="btn btn-lg btn-primary " type="submit" id="registerButton">Guardar Usuario</button>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $('#registerButton').click(function (e) {
+                e.preventDefault();
+
+                var correo = $('input[name="correo"]').val();
+                var user = $('input[name="user"]').val();
+                var password = $('input[name="password"]').val();
+
+                if (correo === "" || user === "" || password === "") {
+                    alert("Espacios en blanco");
+                } else {
+                    $.ajax({
+                        url: '/admin/registro',
+                        data: $('form#myForm').serialize(),
+                        type: 'POST',
+                        success: function (response) {
+                            alert("Envío exitoso");
+                            location.reload(); // Refresca la página
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+
+
+</main>
+
+{% endblock %}

@@ -1,90 +1,92 @@
 {% extends "admin/layout.html" %}
-
 {% block content %}
-
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
-            <div class="cover">
-                <h1>Reporte</h1>
-            </div>
-            
-            <br>
-            <div class="input-group flex-nowrap">
-              <span class="input-group-text" id="addon-wrapping">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg></span>
-              <input type="search"  id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda" aria-label="Username" aria-describedby="addon-wrapping">
-            </div>
-           <br>
-           
-            {% for r_reporte in cobranza %}
-            <div class="tabla">
-            <table class="table">
-                <thead>
-                    <th scope="col"><label for="">Nonbre</label></th>
-                    <th><label for="">total</label></th>
-                    <th><label for="">Fecha De Pedido</label></th>
-                    <th><label for="">Fecha Cobranza</label></th>
-                </thead>
-                <tbody>
-                    <td>
-                        <label for="">
-                            <input type="text" class="" value="{{r_reporte.nombre}}" name="nombre" readonly>
-                        </label>
-                    </td>
-                    <td>
-                        <label for="" >
-                            <input type="text" class=""  value="{{r_reporte.total}}" readonly  >
-                        </label>
-                    </td>
-                    <td>
-                        <label for="" >
-                            <input type="text" value="{{r_reporte.fecha_p}}" class="" readonly>
-                        </label>
-                    </td>
-                    <td>
-                        <label for="" >
-                            <input type="text" value="{{r_reporte.fecha_co}}" class="" readonly>
-                        </label>
-                    </td>
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
+    <div class="cover">
+        <h1>Reporte</h1>
+    </div>
+    <br>
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                viewBox="0 0 16 16">
+                <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+            </svg></span>
+        <input type="search" id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda"
+            aria-label="Username" aria-describedby="addon-wrapping">
+    </div>
+    <br>
+    {% for r_reporte in cobranza %}
+    <div class="tabla">
+        <table class="table">
+            <thead>
+                <th scope="col"><label for="">Nonbre</label></th>
+                <th><label for="">total</label></th>
+                <th><label for="">Fecha De Pedido</label></th>
+                <th><label for="">Fecha Cobranza</label></th>
+            </thead>
+            <tbody>
+                <td>
+                    <form action="/admin/reporte" method="post">
+                    <label for="">
+                        <input type="text" class="" value="{{r_reporte.nombre}}" name="nombre" readonly>
+                    </label>
+                </td>
+                <td>
+                    <label for="">
+                        <input type="text" class="" value="{{r_reporte.total}}" readonly>
+                    </label>
+                </td>
+                <td>
+                    <label for="">
+                        <input type="text" value="{{r_reporte.fecha_p}}" class="" readonly>
+                    </label>
+                </td>
+                <td>
                     
-                </tbody>
-            </table>
-            <table class="table">
-                <thead>
-                    <th><label for="">Abono</label></th>
-                    <th><label for="">Fecha Abono</label></th>
-                    <th><label for="">Saldo</label></th>
-                    <th><label for="">Estado</label></th>
-                </thead>
-                <tbody>
-                    <td>
-                        <label for="" >
-                            <input type="text" value="{{r_reporte.abono}}" class="" readonly>
+                        <label for="">
+                            <input type="text" value="{{r_reporte.fecha_co}}" name="fecha_co" class="" readonly>
                         </label>
-                    </td>
-                    <td>
-                        <label for="" >
-                            <input type="text" value="{{r_reporte.fecha_ab}}" class="" readonly>
-                        </label>
-                    </td>
-                    <td>
-                        <label for="" >
-                            <input type="text" value="{{r_reporte.resultado}}" class="" readonly>
-                        </label>
-                    </td>
-                    <td>
-                        <label for="" >
-                            <input type="text" value="{{r_reporte.pagado}}" class="" readonly>
-                        </label>
-                    </td>
-                </tbody>
-            </table>
-        </div>
-            {% endfor %}
+                </td>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <th><label for="">Abono</label></th>
+                <th><label for="">Fecha Abono</label></th>
+                <th><label for="">Saldo</label></th>
+                <th><label for="">Estado</label></th>
+            </thead>
+            <tbody>
+                <td>
+                    <label for="">
+                        <input type="text" value="{{r_reporte.abono}}" class="" readonly>
+                    </label>
+                </td>
+                <td>
+                    <label for="">
+                        <input type="text" value="{{r_reporte.fecha_ab}}" name="fecha_ab" class="" readonly>
+                    </label>
+                </td>
+                <td>
+                    <label for="">
+                        <input type="text" value="{{r_reporte.resultado}}" class="" readonly>
+                    </label>
+                </td>
+                <td>
+                    <label for="">
+                        <input type="text" value="{{r_reporte.pagado}}" class="" readonly>
+                    </label>
+                </td>
+            </tbody>
+        </table>
+        <button class="btn-primary">Enviar</button>
+        </form>
 
-        </main>
-   <script src="/static/js/filtro.js"></script>
+    </div>
+    {% endfor %}
+
+</main>
+<script src="/static/js/filtro.js"></script>
 
 {% endblock %}

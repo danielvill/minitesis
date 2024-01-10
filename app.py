@@ -39,20 +39,20 @@ def login():
         # Credenciales no válidas, puedes mostrar un mensaje de error
         flash('Usuario o contraseña incorrectos')
         return redirect(url_for('index'))
-  # return render_template('client.html')
+# return render_template('client.html')
     
 
 # ---- Registros envio de datos----
 
-@app.route('/registros')
+@app.route('/admin/registro')
 def regi():
     registros = db['registros']# Esta es la collection name de mi base de datos 
     registrosReceived = registros.find()
-    return render_template('registro.html', registros=registrosReceived)
+    return render_template('admin/registro.html', registros=registrosReceived)
 
 
 # Envio a registro de mi base de datos
-@app.route('/registros', methods=['POST'])
+@app.route('/admin/registro', methods=['POST'])
 def addRegistros():
     registros = db['registros']# Esta es la collection name de mi base de datos 
     correo = request.form['correo']
@@ -62,7 +62,7 @@ def addRegistros():
     if correo and user and password:
         registro = Registro(correo, user, password)
         registros.insert_one(registro.toDBCollection())
-        return redirect(url_for('index'))
+        return redirect(url_for('regi'))
     else:
         return notFound()
 
@@ -249,14 +249,29 @@ def reporte():
     report=db.cobranza.find()
     return render_template('admin/reporte.html',cobranza=report)
     
+#Enviar modulo reporte a estadistica
+@app.route('/admin/reporte', methods=['GET','POST'])
+def env_esta():
+    enviar_est =db['estadistica']
+    nombre = request.form ['nombre']
+    fecha_co = request.form['fecha_co']
+    fecha_ab = request.form['fecha_ab']
+
+    if nombre and fecha_co and fecha_ab:
+        env_esta = Estadistica (nombre,fecha_co,fecha_ab)
+        enviar_est.insert_one(env_esta.estadBCollection())
+        return redirect(url_for('env_esta'))
+    else:
+        return notFound()
 
 
 #Modulo de Estadistica
 
 @app.route('/admin/stadist')
 def estadistica():
-    report=db.cobranza.find()
-    return render_template('admin/stadist.html',cobranza=report)
+    report=db.estadistica.find()
+    return render_template('admin/stadist.html',estadistica=report)
+
 
 
 # Este es para manejo de errores

@@ -6,12 +6,84 @@
     <div class="cover">
         <h1>Estadistica</h1>
     </div>
-    <div class="table">
-
-
+    <br>
+    <div class="">
+        {% for env_esta in estadistica %}
+        
+        <label for="">
+            Nombre
+            <input type="text" name="nombre"  class="input-group-text" value="{{env_esta.nombre}}" readonly>
+        </label>
+        <label for="">
+            Fecha de Cobranza
+            <input type="text" name="fecha_co" class="input-group-text" value="{{env_esta.fecha_co}}" readonly>
+        </label>
+        <label for="">
+            Fecha de Abono
+            <input type="text" name="fecha_ab" class="input-group-text" value="{{env_esta.fecha_ab}}" readonly>
+        </label>
+        <label for="">
+            Dias
+            <input type="text" class="input-group-text" name="dias">
+        </label>
+        
+        {% endfor %}
+        <canvas id="myChart"></canvas>
 
     </div>
 
+    <script>
+        window.onload = function() {
+            var fecha_co_inputs = document.getElementsByName('fecha_co');
+            var fecha_ab_inputs = document.getElementsByName('fecha_ab');
+            var dias_inputs = document.getElementsByName('dias');
+        
+            for (var i = 0; i < fecha_co_inputs.length; i++) {
+                var fecha_co = new Date(fecha_co_inputs[i].value);
+                var fecha_ab = new Date(fecha_ab_inputs[i].value);
+                var diffTime = Math.abs(fecha_ab - fecha_co);
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                dias_inputs[i].value = diffDays;
+            }
+            
+            // Obtiene todos los campos de entrada 'dias'
+            var dias_inputs = document.getElementsByName('dias');
+            
+            // Extrae los días de cada input
+            var dias = Array.from(dias_inputs).map(function(input) {
+                return parseInt(input.value);
+            });
+        
+            // Crea el gráfico
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dias.map(function(item, index) {
+                        return 'Dato ' + (index + 1);
+                    }),
+                    datasets: [{
+                        label: 'Días',
+                        data: dias,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+        
+        
+            
 </main>
 
 {% endblock %}
