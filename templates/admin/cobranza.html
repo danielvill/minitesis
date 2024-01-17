@@ -26,7 +26,7 @@
         <div class="row">
             {% set grouped_products = {} %}
             {% for product in products %}
-            {%- set key_tuple = (product.nombre, product.total,product.fecha_co,product.fecha_p) %}
+            {%- set key_tuple = (product.nombre, product.total,product.fecha_p,product.fecha_co) %}
             {%- if key_tuple not in grouped_products %}
             {%- set _ = grouped_products.update({key_tuple: []}) %}
             {%- endif %}
@@ -130,7 +130,17 @@
     $(this).prev('.moreFields').slideToggle();
   });
 });
-
+// Este codigo sirve para abonos 
+            document.getElementsByName("fecha_ab")[0].addEventListener("change", function () {
+            var fecha_p = new Date(document.getElementsByName("fecha_co")[0].value);
+            var fecha_co = new Date(this.value);
+            var diffTime = Math.abs(fecha_co + fecha_p);
+            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays < 1 ) {
+                alert("La fecha de Abono debe ser diferente a fecha de cobranza");
+                this.value = "";
+            }
+        });
 </script>
 <script src="/static/js/cobranza.js"></script>
 <script src="/static/js/re_co.js"></script>

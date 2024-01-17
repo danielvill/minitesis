@@ -7,16 +7,21 @@
     </div>
     <form action="/admin/registro" method="POST" id="myForm">
         <div class="form-group">
-            <label for="inputuser">Ponga su correo</label>
+            <br>
+            <input type="number" id="miInput" oninput="limitarEntrada()"  name="cedula" class="form-control mb-3" placeholder="cedula" required autofocus>
+
+            <input type="text" name="rol" class="form-control mb-3" placeholder="Rol" required autofocus>
+
             <input type="email" name="correo" class="form-control mb-3" placeholder="Correo" required autofocus>
-            <label for="inputuser">Nombre de Usuario</label>
+
             <input type="text" name="user" class="form-control mb-3" placeholder="Usuario" required autofocus>
-            <label for="inputPassword">Contraseña</label>
+
             <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required
                 autofocus>
             <button class="btn btn-lg btn-primary " type="submit" id="registerButton">Guardar Usuario</button>
         </div>
     </form>
+
 
     <script>
         $(document).ready(function () {
@@ -45,7 +50,12 @@
                 }
             });
         });
-
+        function limitarEntrada() {
+            let x = document.getElementById("miInput");
+            if (x.value.length > 10) {
+                x.value = x.value.slice(0, 10);
+            }
+        }
     </script>
 
 

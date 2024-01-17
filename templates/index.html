@@ -7,17 +7,13 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/index.css">
     <title>Login</title>
-   
 </head>
-
 <body>
     <form action="/index" method="POST" class="text-center" style="width: 300px;">
         <img class="mb-4" src="/static/img/logo.png" alt="" width="100" height="100">
         <h1 class="h3 mb-3 font-weight-normal">Por favor inicia sesión</h1>
-        <label for="inputuser" class="sr-only">Usuario</label>
-        <input type="text" name="user" class="form-control mb-3" placeholder="Usuario" required autofocus>
-        <label for="inputPassword" class="sr-only">Contraseña</label>
-        <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required autofocus>
+        <input type="text" name="user" class="form-control mb-3" placeholder="Usuario" >
+        <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" >
         <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
         {% with messages = get_flashed_messages() %}
         {% if messages %}

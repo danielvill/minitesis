@@ -25,7 +25,7 @@ def index():
 @app.route('/index', methods=['GET','POST'])
 def login():
 
-   if request.method== 'POST' :
+  if request.method== 'POST' :
 
     user = request.form['user']
     password = request.form['password']
@@ -55,12 +55,14 @@ def regi():
 @app.route('/admin/registro', methods=['POST'])
 def addRegistros():
     registros = db['registros']# Esta es la collection name de mi base de datos 
+    cedula = request.form["cedula"]
+    rol = request.form['rol']
     correo = request.form['correo']
     user = request.form['user']
     password = request.form['password']
 
-    if correo and user and password:
-        registro = Registro(correo, user, password)
+    if cedula and rol and correo and user and password:
+        registro = Registro(cedula,rol ,correo, user, password)
         registros.insert_one(registro.toDBCollection())
         return redirect(url_for('regi'))
     else:
@@ -105,7 +107,6 @@ def editarclient():
 def delete_client(client_name):#Pasa la funcion al form osea al boton
     cliente = db['clientes']
     cliente.delete_one({'nombre' : client_name})
-    print("No se muestrra los resultrados")
     return redirect(url_for('editarclient'))
 
 # Metodo Para editar el cliente
@@ -210,6 +211,7 @@ def edit(product_nombre):
         products.update_one({'nombre': product_nombre}, {'$set': {'nombre': nombre_cliente, 'codigo': codigos, 'cantidad': cantidades ,'precio':precios,'resultado':resultados, 'total':total ,'fecha_p':fecha_p, 'fecha_co':fecha_co  }})
         return redirect(url_for('pago'))
     else:
+       
         return 'No se muestra nada'
 
 # Modulo de cobranza y muestra del form 
