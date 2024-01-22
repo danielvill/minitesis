@@ -16,8 +16,15 @@
             aria-label="Username" aria-describedby="addon-wrapping">
     </div>
     <br>
+    <div class="col-lg-0 container">
+        <Label>Total de Cobranzas</Label>
+        <input type="text" name="suma" id="">
+    </div>
+    <br>
     {% for r_reporte in cobranza %}
+
     <div class="tabla">
+
         <table class="table">
             <thead>
                 <th scope="col"><label for="">Nonbre</label></th>
@@ -26,37 +33,37 @@
                 <th><label for="">Fecha Cobranza</label></th>
             </thead>
             <tbody>
-                
-                    <td>
-                        <form action="/admin/reporte" method="post">
-                            <label for="">
-                                <input type="text" class="" value="{{r_reporte.nombre}}" name="nombre" readonly>
-                            </label>
-                    </td>
-               
-               
-                    <td>
+
+                <td>
+                    <form action="/admin/reporte" method="post">
                         <label for="">
-                            <input type="text" class="" value="{{r_reporte.total}}" readonly>
+                            <input type="text" class="" value="{{r_reporte.nombre}}" name="nombre" readonly>
                         </label>
-                    </td>
-               
-                
-                    <td>
-                        <label for="">
-                            <input type="text" value="{{r_reporte.fecha_p}}" class="" readonly>
-                        </label>
-                    </td>
-                
-                    <td>
-                        <label for="">
-                            <input type="text" value="{{r_reporte.fecha_co}}" name="fecha_co" class="" readonly>
-                        </label>
-                    </td>
-                
+                </td>
+
+
+                <td>
+                    <label for="">
+                        <input type="text" class="" value="{{r_reporte.total}}" readonly>
+                    </label>
+                </td>
+
+
+                <td>
+                    <label for="">
+                        <input type="text" value="{{r_reporte.fecha_p}}" class="" readonly>
+                    </label>
+                </td>
+
+                <td>
+                    <label for="">
+                        <input type="text" value="{{r_reporte.fecha_co}}" name="fecha_co" class="" readonly>
+                    </label>
+                </td>
+
             </tbody>
-        
-        
+
+
             <thead>
                 <th><label for="">Abono</label></th>
                 <th><label for="">Fecha Abono</label></th>
@@ -64,44 +71,55 @@
                 <th><label for="">Estado</label></th>
             </thead>
             <tbody>
-               
+
                 <td>
                     <label for="">
                         <input type="text" value="{{r_reporte.abono}}" class="" readonly>
                     </label>
                 </td>
-            
-              
+
+
                 <td>
                     <label for="">
                         <input type="text" value="{{r_reporte.fecha_ab}}" name="fecha_ab" class="" readonly>
                     </label>
                 </td>
-            
-                
-            <td>
+
+
+                <td>
                     <label for="">
                         <input type="text" value="{{r_reporte.resultado}}" class="" readonly>
                     </label>
                 </td>
-               
-               
-            <td>
+
+
+                <td>
                     <label for="">
                         <input type="text" value="{{r_reporte.pagado}}" class="" readonly>
                     </label>
                 </td>
-                
+
             </tbody>
         </table>
-        <button class="btn-primary">Enviar</button>    
-    </form>
+        <button class="enviar btn-primary">Enviar</button>
+        </form>
     </div>
-    
+
     <br>
     {% endfor %}
 
 </main>
 <script src="/static/js/filtro.js"></script>
+<script>
+
+$(document).ready(function(){
+  $(".enviar").click(function(event){
+    if(!confirm("¿Estás seguro de  enviarlo?")){
+      event.preventDefault();
+    }
+  });
+});
+
+</script>
 
 {% endblock %}
