@@ -1,0 +1,11 @@
+nombre base de datos es tesis
+
+Collection name para mongodb
+
+
+admin
+clientes
+cobranza
+estadistica
+products
+registros
