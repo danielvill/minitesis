@@ -16,9 +16,11 @@
                     <th>Fecha de cobranza</th>
                     <th>Fecha de Abono</th>
                     <th>Dias</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
+
                 <tr>
                     <td>
                         <input type="text" name="nombre" class="input-group-text" value="{{env_esta.nombre}}" readonly>
@@ -33,6 +35,9 @@
                     </td>
                     <td>
                         <input type="text" class="input-group-text" name="dias">
+                    </td>
+                    <td>
+                        <a href="{{url_for('delest', esta_nombre=env_esta.nombre)}}" class="eliminar btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             </tbody>
@@ -88,11 +93,14 @@
                 }
             });
         }
+        $(".eliminar").click(function (event) {
+            if (!confirm("¿Estás seguro de que quieres eliminar?")) {
+                event.preventDefault();
+            }
+        });
+
 
     </script>
-
-
-
 </main>
 
 {% endblock %}

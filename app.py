@@ -130,9 +130,6 @@ def edit_c(client_name):
     else:
         return notFound()
     
-
-
-
 # Ruta Productos
 #Agregar un select para el html 
 @app.route('/admin/products')
@@ -173,9 +170,6 @@ def addProduct():
 
     return notFound()
 
-
-
-
 #Ruta de Pay
 
 @app.route('/admin/pay')
@@ -211,7 +205,6 @@ def edit(product_nombre):
         products.update_one({'nombre': product_nombre}, {'$set': {'nombre': nombre_cliente, 'codigo': codigos, 'cantidad': cantidades ,'precio':precios,'resultado':resultados, 'total':total ,'fecha_p':fecha_p, 'fecha_co':fecha_co  }})
         return redirect(url_for('pago'))
     else:
-       
         return 'No se muestra nada'
 
 # Modulo de cobranza y muestra del form 
@@ -267,12 +260,18 @@ def env_esta():
 
 
 #Modulo de Estadistica
-
 @app.route('/admin/stadist')
 def estadistica():
     report=db.estadistica.find()
     return render_template('admin/stadist.html',estadistica=report)
 
+
+#Modulo eliminacion de Estadistica
+@app.route('/delest/<string:esta_nombre>')
+def delest(esta_nombre):
+    estadistica = db['estadistica']
+    estadistica.delete_one({'nombre': esta_nombre})
+    return redirect(url_for('estadistica'))
 
 
 # Este es para manejo de errores
