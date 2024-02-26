@@ -8,57 +8,87 @@
     <form action="/admin/registro" method="POST" id="myForm">
         <div class="form-group">
             <br>
-            <input type="number" id="miInput" oninput="limitarEntrada()"  name="cedula" class="form-control mb-3" placeholder="cedula" required autofocus>
+            <input type="number"  id="miInput" onclick="limitarEntrada" name="cedula" class="form-control mb-3" placeholder="cedula" required autofocus>
 
-            <input type="text" name="rol" class="form-control mb-3" placeholder="Rol" required autofocus>
+            <select name="rol" id="" class="form-control mb-3">
+                <option value="usuario">Usuario</option>
+            </select>
+            
 
-            <input type="email" name="correo" class="form-control mb-3" placeholder="Correo" required autofocus>
+            <input type="email" name="correo" id="correo" class="form-control mb-3" placeholder="Correo" required autofocus>
 
-            <input type="text" name="user" class="form-control mb-3" placeholder="Usuario" required autofocus>
+            <input type="text" name="user" class="form-control mb-3" placeholder="Nombre de Usuario" required autofocus>
 
             <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required
                 autofocus>
             <button class="btn btn-lg btn-primary " type="submit" id="registerButton">Guardar Usuario</button>
         </div>
     </form>
-
-
-    <script>
-        $(document).ready(function () {
-            $('#registerButton').click(function (e) {
-                e.preventDefault();
-
-                var correo = $('input[name="correo"]').val();
-                var user = $('input[name="user"]').val();
-                var password = $('input[name="password"]').val();
-
-                if (correo === "" || user === "" || password === "") {
-                    alert("Espacios en blanco");
-                } else {
-                    $.ajax({
-                        url: '/admin/registro',
-                        data: $('form#myForm').serialize(),
-                        type: 'POST',
-                        success: function (response) {
-                            alert("Envío exitoso");
-                            location.reload(); // Refresca la página
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }
-            });
-        });
-        function limitarEntrada() {
-            let x = document.getElementById("miInput");
-            if (x.value.length > 10) {
-                x.value = x.value.slice(0, 10);
-            }
-        }
-    </script>
-
-
 </main>
+<script>
+    // Validacion si los campos estan vacios
+document.querySelector('form').onsubmit = function (e) {
+    var inputs = this.querySelectorAll('input');
+    var todosLlenos = true; // Asume que todos los campos están llenos
+
+    for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].value === '') {
+            todosLlenos = false; // Si un campo está vacío, establece todosLlenos en falso
+            break; // No necesitas verificar el resto de los campos, así que puedes salir del bucle
+        }
+    }
+
+    if (!todosLlenos) {
+        e.preventDefault(); // Previene el envío del formulario
+        alert('Los campos estan vacios');
+    } else {
+        alert('Guardado exitosamente');
+    }
+};
+
+// Validadr lo que es la cedula no tiene para ver si esta en el gobierno
+function validarCedula(cedula) {
+    // Verifica que tenga 10 caracteres y sea solo números
+    if (cedula.length === 10 && Number.isInteger(+cedula)) {
+        var digitos = cedula.split('').map(Number);
+        var ultimoDigito = digitos.pop();
+        var suma = digitos.reduce(function (acc, curr, i) {
+            var valor = (i % 2 === 0) ? curr * 2 : curr;
+            valor = (valor > 9) ? valor - 9 : valor;
+            return acc + valor;
+        }, 0);
+        var digitoVerificador = 10 - (suma % 10);
+        digitoVerificador = (digitoVerificador === 10) ? 0 : digitoVerificador;
+        return ultimoDigito === digitoVerificador;
+    } else {
+        return false;
+    }
+}
+
+document.querySelector('form').addEventListener('submit', function (e) {
+    var cedula = document.querySelector('input[name="cedula"]').value;
+    if (!validarCedula(cedula)) {
+        alert('La cédula ingresada no es válida');
+        e.preventDefault(); // Previene el envío del formulario
+    }
+});
+
+// Validar Correo
+function validarcorreo() {
+    let correo = document.getElementById('correo').value;
+    let regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    if (!regex.test(correo)) {
+        alert('Por favor, ingresa un correo válido');
+        return false;
+    }
+}
+
+function limitarEntrada() {
+    let x = document.getElementById("miInput");
+    if (x.value.length > 10) {
+        x.value = x.value.slice(0, 10);
+    }
+}
+</script>
 
 {% endblock %}

@@ -20,7 +20,6 @@
         <input type="search" id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda"
             aria-label="Username" aria-describedby="addon-wrapping">
     </div>
-
     <br>
     <div class="container">
         <div class="row">
@@ -55,11 +54,11 @@
                                             value="{{keys[3]}}" name="fecha_co"></label>
                                 </label>
                                 <label for="">Abono
-                                    <label for=""><input type="text" class="input-group-text abono" name="abono">
+                                    <label for=""><input type="text" class="input-group-text abono" name="abono" required>
                                     </label>
                                 </label>
                                 <label for="">Fecha del Abono
-                                    <label for=""><input class="input-group-text" type="date" name="fecha_ab">
+                                    <label for=""><input class="input-group-text" type="date" name="fecha_ab" required>
                                     </label>
                                 </label>
                                 <label for=""> Suma Total - Abono
@@ -68,7 +67,10 @@
                                     </label>
                                 </label>
                                 <label for="">Estado de la Deuda
-                                    <input type="text" class="input-group-text" name="pagado">
+                                    <select name="pagado" id="" class="input-group-text">
+                                        <option value="Abono">Abono</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                    </select>
                                 </label>
                             </div>
 
@@ -92,37 +94,7 @@
 
 </main>
 <script>
-    $(document).ready(function () {
-        $('button[type="submit"]').click(function (e) {
-            e.preventDefault();
 
-            var nombre = $('input[name="nombre"]').val();
-            var total = $('input[name="total"]').val();
-            var fecha_p = $('input[name="fecha_p"]').val();
-            var fecha_co = $('input[name="fecha_co"]').val();
-            var abono = $('input[name="abono"]').val();
-            var fecha_ab = $('input[name="fecha_ab"]').val();
-            var resultado = $('input[name="resultado"]').val();
-            var pagado = $('input[name="pagado"]').val();
-
-            if (nombre === "" || total === "" || fecha_p === "" || fecha_co === "" || abono === "" || fecha_ab === "" || resultado === "" || pagado === "") {
-                alert("Espacios en blanco");
-            } else {
-                $.ajax({
-                    url: '/admin/cobranza',
-                    data: $('form').serialize(),
-                    type: 'POST',
-                    success: function (response) {
-                        alert("Envío exitoso");
-                        location.reload(); // Refresca la página
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            }
-        });
-    });
     // Este codigo sirve para que el boton mostrar mas se pueda visualizar bien 
     $(document).ready(function () {
         $('.showMoreButton').click(function () {

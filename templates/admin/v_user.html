@@ -1,0 +1,68 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
+    <div class="cover">
+        <h1>Administrador Muestra de Usuarios</h1>
+    </div>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cedula</th>
+                    <th>Rol</th>
+                    <th>Correo</th>
+                    <th>Usuario</th>
+                    <th>Contraseña</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for regi in registros %}
+                <form action="/edit_us/{{regi.cedula}}" method="post">
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" name="cedula"  value="{{regi.cedula}}">
+                        </td> 
+                        <td>
+                            <input type="text" class="form-control" name="rol" value="{{regi.rol}}">
+                        </td> 
+                        <td> 
+                            <input type="text" class="form-control" name="correo" value="{{regi.correo}}">
+                        </td> 
+                        <td> 
+                            <input type="text" class="form-control" name="user" value="{{regi.user}}">
+                        </td> 
+                        <td> 
+                            <input type="text" class="form-control" name="password" value="{{regi.password}}">
+                        </td>
+                        <td>
+                            <button class="editar btn btn-primary" type="submit">Editar</button>
+                            <a href="{{url_for('del_user', client_user=regi.cedula)}}" class="eliminar btn btn-danger">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                </form>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script>
+//  Este es oara preguntar de la edicion y eliminacion
+$(document).ready(function () {
+    $(".editar").click(function (event) {
+        if (!confirm("¿Estás seguro de que quieres editar?")) {
+            event.preventDefault();
+        }
+    });
+
+    $(".eliminar").click(function (event) {
+        if (!confirm("¿Estás seguro de que quieres eliminar?")) {
+            event.preventDefault();
+        }
+    });
+});
+</script>
+{% endblock %}

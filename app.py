@@ -68,6 +68,38 @@ def addRegistros():
     else:
         return notFound()
 
+#* Muestra de los usuarios registrados
+@app.route('/admin/v_user')
+def v_user():
+    usuarios =db['registros'].find()
+    return render_template('admin/v_user.html', registros=usuarios)
+
+#* Eliminar usuarios
+@app.route('/delete_user/<string:client_user>')
+def del_user(client_user):#Pasa la funcion al form osea al boton
+    user = db['registros']
+    user.delete_one({'cedula' : client_user})
+    return redirect(url_for('v_user'))
+
+# * Editar usuarios
+@app.route('/edit_us/<string:client_user>', methods=['GET', 'POST'])#
+def edit_user(client_user):
+    userer = db['registros']
+    cedula = request.form['cedula']
+    rol = request.form['rol']
+    correo = request.form['correo']
+    user = request.form['user']
+    password = request.form['password']
+    
+    if cedula and rol and correo and user and password:
+        userer.update_one({'cedula' : client_user}, {'$set' : {'cedula' : cedula, 'rol' : rol, 'correo' : correo, 'user' : user, 'password' :password}})
+        return redirect(url_for('v_user'))
+    else:
+        return notFound()
+
+
+
+
 #Ruta de cliente e ingresado de los mismo
 @app.route('/admin/client', methods=['GET','POST'])
 def client():
