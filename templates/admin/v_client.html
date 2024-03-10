@@ -1,111 +1,170 @@
 {% extends "admin/layout.html" %}
-
 {% block content %}
+  <table id="myTable" class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
-  <div class="cover">
-    <h1>Vista Cliente</h1>
-  </div>
-  <br>
-  <div class="input-group flex-nowrap">
-    <span class="input-group-text" id="addon-wrapping">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-        viewBox="0 0 16 16">
-        <path
-          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-      </svg></span>
-    <input type="search" id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda"
-      aria-label="Username" aria-describedby="addon-wrapping">
-  </div>
-  <br>
-  {% for client in clientes %}
-  <br>
-  <div class="col">
-    <li class="list-group-item mb-3">
-      <form action="/edit_cl/{{client.nombre}}" method="POST">
-        <div class="tabla">
-          <table id="" class="table table-bordered">
-            <thead>
-              <th scope="col"><label>Nombre</label></th>
+        <th>Telefono</th>
 
-              <th scope="col"><label>Telefono</label></th>
+        <th>Provincia</th>
 
-              <th scope="col"><label>Provincia</label></th>
+        <th>Canton</th>
 
-              <th scope="col"><label>Canton</label></th>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row"> <input type="text" class="" value="{{client.nombre}}" name="nombre"></th>
-                <td>
-                  <input type="text" class="" value="{{client.telefono}}" name="telefono">
-                </td>
-                <td>
-                  <input type="text" class="" value="{{client.provincia}}" name="provincia">
-                </td>
-                <td>
-                  <input type="text" class="" value="{{client.canton}}" name="canton">
-                </td>
-              </tr>
-            </tbody>
+        <th> Direccion</th>
 
-            <thead>
-              <th scope="col"><label>Direccion</label></th>
+        <th> Referencia</th>
 
-              <th scope="col"><label>Referencia</label></th>
+        <th> Mapa</th>
 
-              <th scope="col"><label>Mapa</label></th>
+        <th> Comentario</th>
 
-              <th scope="col"><label>Comentario</label></th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for client in clientes %}
+      <tr>
+        <td>{{client.nombre}}</td>
+        <td>
+          {{client.telefono}}
+        </td>
+        <td>
+          {{client.provincia}}
+        </td>
+        <td>
+          {{client.canton}}
+        </td>
+        <td>
+          {{client.direccion}}
+        </td>
+        <td>
+          {{client.referencia}}
+        </td>
+        <td>
+          {{client.mapa}}
+        </td>
+        <td>
+          {{client.comentario}}
+        </td>
+        <td>
+          <button class="editar  btn btn-primary" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+              <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
+            </svg>
+          </button>
+          <a class="eliminar  btn btn-danger "
+            href="{{url_for('delete_client', client_name=client.nombre)}}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-octagon" viewBox="0 0 16 16">
+              <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1z"/>
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-            </thead>
-            <tbody>
-              <td>
-                <input type="text" class="" value="{{client.direccion}}" name="direccion">
-              </td>
-              <td>
-                <input type="text" class="" value="{{client.referencia}}" name="referencia">
-              </td>
-              <td>
-                <input type="url" class="" value="{{client.mapa}}" name="mapa">
-              </td>
-              <td>
-                <input type="text" class="" value="{{client.comentario}}" name="comentario">
-              </td>
-
-            </tbody>
-
-          </table>
-          <button class="editar btn btn-primary btn-sm mt-3" type="submit">Editar</button>
-          <a class="eliminar btn btn-danger btn-sm mt-3" href="{{url_for('delete_client', client_name=client.nombre)}}">Eliminar</a>
-          
-        </div>
-      </form>
-
-    </li>
-  </div>
-
-  {% endfor %}
-  <script src="/static/js/filtro.js"></script>
-  <script>
-    // Este codigo es para preguntar antes de enviar a la base de datos para actualizar los valores o eliminar los botones
-$(document).ready(function(){
-  $(".editar").click(function(event){
-    if(!confirm("¿Estás seguro de que quieres editar?")){
-      event.preventDefault();
-    }
+<div id="editModal" title="Editar Cliente">
+  <form id="editForm" action="" method="post">
+    
+    <div class="form-group mb-2" >
+      <div class="col">
+        <label for="usuario">Nombre</label>
+        <input type="text" id="nombre" class="form-control" name="nombre">
+      </div>
+      <div class="col">
+        <label for="">Telefono</label>
+        <input type="text" id="telefono" class="form-control" name="telefono">
+      </div>
+      <div class="col">
+        <label for="">Provincia</label>
+        <input type="text" id="provincia" class="form-control" name="provincia">
+      </div>
+      <div class="col">
+        <label for="canton">Canton</label>
+        <input type="text" id="canton" class="form-control" name="canton">
+      </div>
+      <div class="col">
+        <label for="correo">Direccion</label>
+        <input type="text" id="direccion" class="form-control" name="direccion">
+      </div>
+      <div class="col">
+        <label for="">Referencia</label>
+        <input type="text" id="referencia" class="form-control" name="referencia">
+      </div>
+      <div class="col">
+        <label for="">Mapa</label>
+        <input type="url" id="mapa" class="form-control" name="mapa">
+      </div>
+      <div class="col">
+        <label for="">Comentario</label>
+        <input type="text" id="comentario" class="form-control" name="comentario">
+      </div>
+    </div>
+ 
+  </form>
+</div>
+<script src="/static/js/filtro.js"></script>
+<script>
+  // Este codigo es para preguntar antes de enviar a la base de datos para actualizar los valores o eliminar los botones
+  $(document).ready(function () {
+    $(".eliminar").click(function (event) {
+      if (!confirm("¿Estás seguro de que quieres eliminar?")) {
+        event.preventDefault();
+      }
+    });
   });
 
-  $(".eliminar").click(function(event){
-    if(!confirm("¿Estás seguro de que quieres eliminar?")){
-      event.preventDefault();
-    }
+  $(document).ready(function () {
+    $('#myTable').DataTable({
+      "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+      }
+    });
+    var table = $('#myTable').DataTable();
+    //Cambio de english a spanish
+    // Funcionalidad de edición
+    table.on('click', '.editar', function () {
+      var row = $(this).closest('tr');
+      var data = table.row(row).data();
+      // Aquí puedes abrir el modal y llenar los campos del formulario con los datos del usuario
+      // Por ejemplo:
+      $('#nombre').val(data[0]);
+      $('#telefono').val(data[1]);
+      $('#provincia').val(data[2]);
+      $('#canton').val(data[3]);
+      $('#direccion').val(data[4]);
+      $('#referencia').val(data[5]);
+      $('#mapa').val(data[6]);
+      $('#comentario').val(data[7]);
+      $('#editForm').attr('action', '/edit_cl/' + data[0]);
+      $('#editModal').dialog('open');
+    });
+    // Inicializar el modal
+    $('#editModal').dialog({
+      autoOpen: false,
+      modal: true,
+      buttons: [
+        {
+          text: 'Guardar',
+          click: function () {
+            $('#editForm').submit();
+          },
+          // Agregar una clase al botón
+          class: 'guardar'
+        },
+        {
+          text: 'Cancelar',
+          click: function () {
+            $(this).dialog('close');
+          },
+          // Agregar una clase al botón
+          class: 'cancelar'
+        }
+      ]
+    });
   });
-});
-
-  </script>
-
-</main>
-
-
+</script>
 {% endblock %}

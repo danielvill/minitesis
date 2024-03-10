@@ -3,129 +3,107 @@
 
 <head>
   <title>Mi aplicación Flask</title>
+  <link href="/static/css/bootstrap.css" rel="stylesheet">
+  <!-- FONTAWESOME STYLES -->
+  <link href="/static/css/font-awesome.css" rel="stylesheet">
+  <!-- CUSTOM STYLES -->
+  <link href="/static/css/custom.css" rel="stylesheet">
+  <!-- GOOGLE FONTS -->
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-  <link rel="stylesheet" href="/static/css/menu.css">
-  <link rel="stylesheet" href="/static/css/portada.css">
-  <link rel="stylesheet" href="/static/css/v_client.css">
-  <link rel="stylesheet" href="/static/css/modal.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- DataTables -->
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css">
+  <!-- Popper.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- jQuery UI -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
-
 <body>
-  
-  <script src="/static/js/menu.js"></script>
-  <div class="container-fluid">
-    <div class="row">
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar" data-spy="scroll" data-target="#main-content"
-        data-offset="3">
-        <div class="sidebar-sticky">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <h1 class=""><img src="/static/img/descarga.png" class="img-thumbnail" alt="..."></h1>
-              <a class="nav-link" href="./registro">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                  class="bi bi-person-vcard" viewBox="0 0 16 16">
-                  <path
-                    d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4m4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5M9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8m1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5" />
-                  <path
-                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96q.04-.245.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 1 1 12z" />
-                </svg>
-                Registro de Usuario
-              </a>
-              <a class="nav-link active" href="./v_user">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
-                  <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                </svg>
-                Muestra de Usuarios
-              </a>
-              <a class="nav-link active" href="./client">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z" />
-                </svg>
-                Ingresado de Cliente
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./products">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-handbag"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M8 1a2 2 0 0 1 2 2v2H6V3a2 2 0 0 1 2-2m3 4V3a3 3 0 1 0-6 0v2H3.36a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.355a2.5 2.5 0 0 0 2.473-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5zm-1 1v1.5a.5.5 0 0 0 1 0V6h1.639a.5.5 0 0 1 .494.426l1.028 6.851A1.5 1.5 0 0 1 12.678 15H3.322a1.5 1.5 0 0 1-1.483-1.723l1.028-6.851A.5.5 0 0 1 3.36 6H5v1.5a.5.5 0 1 0 1 0V6z" />
-                </svg>
-                Ingresado de productos
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./pay">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-                </svg>
-                Vista Cobranzas
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./v_client">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                  class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-                  <path
-                    d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
-                </svg>
-                Vista Clientes
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./cobranza">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
-                </svg>
-                Cobranzas
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./reporte">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                  class="bi bi-card-text" viewBox="0 0 16 16">
-                  <path
-                    d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
-                  <path
-                    d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5" />
-                </svg>
-                Reporte
-              </a>
-            </li>
-            <a class="nav-link" href="./stadist">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
-                <path
-                  d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z" />
-              </svg>
-              Estudio de morosidad
-            </a>
-          </ul>
+  <div id="wrapper">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="adjust-nav">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
 
+          </a>
         </div>
-      </nav>
-      {% block content %}
+        <span class="logout-spn" style="width: auto;">
 
-      {% endblock %}
+        </span>
+      </div>
+    </div>
+    <!-- /. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+      <div class="sidebar-collapse">
+        <ul class="nav" id="main-menu">
+          <li class="active-link">
+            <a href="./registro"><i class="fa fa-desktop "></i>Registro de Usuarios<span class="badge"></span></a>
+          </li>
+          <li>
+            <a href="./v_user"><i class="fa fa-user "></i>Vista User <span class="badge"></span></a>
+          </li>
+          <li>
+            <a href="./client"><i class="fa fa-edit "></i>Registro de Clientes <span class="badge"></span></a>
+          </li>
+          <li>
+            <a href="./v_client"><i class="fa fa-eye "></i>Vista de Clientes</a>
+          </li>
+          <li>
+            <a href="./products"><i class="fa fa-edit"></i>Ingreso de Productos</a>
+          </li>
 
+          <li>
+            <a href="./pay"><i class="fa fa-eye "></i>Vista de Productos </a>
+          </li>
+          <li>
+            <a href="./cobranza"><i class="fa fa-eye "></i>Vista de Cobranzas</a>
+          </li>
+          <li>
+            <a href="./reporte"><i class="fa fa-edit "></i>Reporte </a>
+          </li>
+          <li>
+            <a href="./stadist"><i class="fa fa-bar-chart-o "></i>Estudio de Morosidad </a>
+          </li>
+          <li>
+            <a href="{{ url_for('logout') }}">Salir</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+      <div id="page-inner">
+        <div class="row">
+          <div class="col-lg-12">
+
+          </div>
+        </div>
+        <!-- /. ROW  -->
+        <hr />
+        {% block content %}
+
+        {% endblock %}
+        <!-- /. terminar aqui  -->
+        <!-- /. PAGE INNER  -->
+      </div>
+      <!-- /. PAGE WRAPPER  -->
     </div>
   </div>
-
 </body>
 
 </html>

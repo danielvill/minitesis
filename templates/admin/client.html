@@ -1,111 +1,146 @@
 {% extends "admin/layout.html" %}
-
 {% block content %}
+<style>
+    .in {
+        width: 350px;
+        font-size: 14px;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="in panel-heading">
+                Ingreso de Clientes
+            </div>
+            <div class="panel-body">
+                <form action="/admin/client" method="POST">
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
-  <div class="cover">
-    <h1>Administrador Cliente</h1>
-  </div>
-  <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre" style="font-size: 16px;">Nombre:</label>
+                                <input type="text" class="in inputGroup-sizing-lg" id="nombre" name="nombre"
+                                    placeholder="Ingresa tu nombre" style="font-size: 14px;">
+                            </div>
+                        </div>
 
-    <form action="/admin/client" method="POST">
-      <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input type="text" class="form-control" id="nombre" name="nombre">
-      </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" style="font-size: 16px;">Telefono</label>
+                                <input type="number" class="in inputGroup-sizing-lg" id="miInput"
+                                    oninput="limitarEntrada()" name="telefono" placeholder="Ingresa su celular"
+                                    style="font-size: 14px;">
+                            </div>
+                        </div>
+                    </div>
 
-      <div class="form-group">
-        <label for="telefono">Teléfono</label>
-        <input type="number" class="form-control" id="miInput" oninput="limitarEntrada()" name="telefono">
-      </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" style="font-size: 16px;">Provincia</label>
+                                <select class="in inputGroup-sizing-lg" id="provincia" name="provincia"
+                                    style="font-size: 14px;">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option value="El Oro">El Oro</option>
+                                    <option value="Guayas">Guayas</option>
+                                    <option value="Manabí">Azuay</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" style="font-size: 16px;">Canton</label>
+                                <select class="in inputGroup-sizing-lg" id="canton" name="canton"
+                                    style="font-size: 14px;">
+                                    <option value="">-- Seleccionar --</option>
+                                    <option value="Machala">Machala</option>
+                                    <option value="Pasaje">Guayaquil</option>
+                                    <option value="Zamora">Ponce Enriquez</option>
+                                </select>
+                            </div>
+                        </div>
 
-      <div class="form-group">
-        <label for="provincia">Provincia</label>
-        <select class="form-control" id="provincia" name="provincia">
-          <option value="">-- Seleccionar --</option>
-          <option value="El Oro">El Oro</option>
-          <option value="Guayas">Guayas</option>
-          <option value="Manabí">Azuay</option>
-        </select>
-      </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" style="font-size: 16px;">Dirección</label>
+                                <input type="text" class="in form-control" id="direccion" name="direccion"
+                                    placeholder="Ingres su direccion" style="font-size: 14px;">
+                            </div>
+                        </div>
 
-      <div class="form-group">
-        <label for="canton">Cantón</label>
-        <select class="form-control" id="canton" name="canton">
-          <option value="">-- Seleccionar --</option>
-          <option value="Machala">Machala</option>
-          <option value="Pasaje">Guayaquil</option>
-          <option value="Zamora">Ponce Enriquez</option>
-        </select>
-      </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" style="font-size: 16px;">Referencia</label>
+                                <input type="text" class="in form-control" id="referencia" name="referencia"
+                                    placeholder="Ingres su referencia" style="font-size: 14px;">
+                            </div>
+                        </div>
 
-      <div class="form-group">
-        <label for="direccion">Dirección</label>
-        <input type="text" class="form-control" id="direccion" name="direccion">
-      </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" style="font-size: 16px;">Google Maps enlace</label>
+                                <input type="url" class="in form-control" id="mapa" name="mapa"
+                                    onchange="validarEnlace()" placeholder="Ingres su referencia"
+                                    style="font-size: 14px;">
+                            </div>
+                        </div>
 
-      <div class="form-group">
-        <label for="referencia">Referencia</label>
-        <textarea class="form-control" id="referencia" name="referencia"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="mapa">Mapa</label>
-        <input type="url" class="form-control" id="mapa" name="mapa" onchange="validarEnlace()">
-      </div>
-
-      <div class="form-group">
-        <label for="comentario">Comentario</label>
-        <textarea class="form-control" id="comentario" name="comentario"></textarea>
-      </div>
-
-      <button type="submit" class="btn btn-primary">Enviar</button>
-
-    </form>
-
-  </div>
-</main>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" style="font-size: 16px;">Comentario</label>
+                                <input type="text" class="in form-control" id="comentario" name="comentario"
+                                    placeholder="Ingres su referencia" style="font-size: 14px;">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
- // Validacion si los campos estan vacios
-document.querySelector('form').onsubmit = function (e) {
-    var inputs = this.querySelectorAll('input');
-    var todosLlenos = true; // Asume que todos los campos están llenos
+    // Validacion si los campos estan vacios
+    document.querySelector('form').onsubmit = function (e) {
+        var inputs = this.querySelectorAll('input');
+        var todosLlenos = true; // Asume que todos los campos están llenos
 
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value === '') {
-            todosLlenos = false; // Si un campo está vacío, establece todosLlenos en falso
-            break; // No necesitas verificar el resto de los campos, así que puedes salir del bucle
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].value === '') {
+                todosLlenos = false; // Si un campo está vacío, establece todosLlenos en falso
+                break; // No necesitas verificar el resto de los campos, así que puedes salir del bucle
+            }
+        }
+
+        if (!todosLlenos) {
+            e.preventDefault(); // Previene el envío del formulario
+            alert('Los campos estan vacios');
+        } else {
+            alert('Enviado a la base de datos');
+        }
+    };
+
+    // Validacion de numero telefonico
+    document.querySelector('form').addEventListener('submit', function (event) {
+        var telefono = document.querySelector('input[name="telefono"]').value;
+        var regex = /^09\d{8}$/; // Expresión regular para validar números de celular ecuatorianos
+
+        if (!regex.test(telefono)) {
+            alert('Por favor, ingresa un número de celular  válido.');
+            event.preventDefault(); // Evita que el formulario se envíe
+        }
+    });
+
+
+    function validarEnlace() {
+        let x = document.getElementById("mapa");
+        let urlRegex = /^(http|https):\/\/[^ "]+$/; // Expresión regular para validar enlaces
+        if (!urlRegex.test(x.value)) {
+            alert("Por favor, ingresa un enlace válido.");
+            x.value = "";
         }
     }
-
-    if (!todosLlenos) {
-        e.preventDefault(); // Previene el envío del formulario
-        alert('Los campos estan vacios');
-    } else {
-        alert('Enviado a la base de datos');
-    }
-};
-
-// Validacion de numero telefonico
-document.querySelector('form').addEventListener('submit', function(event) {
-    var telefono = document.querySelector('input[name="telefono"]').value;
-    var regex = /^09\d{8}$/; // Expresión regular para validar números de celular ecuatorianos
-
-    if (!regex.test(telefono)) {
-        alert('Por favor, ingresa un número de celular  válido.');
-        event.preventDefault(); // Evita que el formulario se envíe
-    }
-});
-
-
-  function validarEnlace() {
-    let x = document.getElementById("mapa");
-    let urlRegex = /^(http|https):\/\/[^ "]+$/; // Expresión regular para validar enlaces
-    if (!urlRegex.test(x.value)) {
-      alert("Por favor, ingresa un enlace válido.");
-      x.value = "";
-    }
-  }
 </script>
 {% endblock %}

@@ -1,104 +1,95 @@
 {% extends "admin/layout.html" %}
-
 {% block content %}
+<div class="input-group flex-nowrap">
+    <span class="input-group-text" id="addon-wrapping">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+            viewBox="0 0 16 16">
+            <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+        </svg></span>
+    <input type="search" id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda"
+        aria-label="Username" aria-describedby="addon-wrapping">
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        {% set grouped_products = {} %}
+        {% for product in products %}
+        {%- set key_tuple = (product.nombre, product.total,product.fecha_p,product.fecha_co) %}
+        {%- if key_tuple not in grouped_products %}
+        {%- set _ = grouped_products.update({key_tuple: []}) %}
+        {%- endif %}
+        {%- set _ = grouped_products[key_tuple].append(product) %}
+        {% endfor %}
+        {% for keys, productos in grouped_products.items() %}
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
-    <div class="cover">
-        <br>
-        <br>
-        <h1>Modulo de Cobranza</h1>
-    </div>
-    <br>
-    <br>
-    <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                viewBox="0 0 16 16">
-                <path
-                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-            </svg></span>
-        <input type="search" id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda"
-            aria-label="Username" aria-describedby="addon-wrapping">
-    </div>
-    <br>
-    <div class="container">
-        <div class="row">
-            {% set grouped_products = {} %}
-            {% for product in products %}
-            {%- set key_tuple = (product.nombre, product.total,product.fecha_p,product.fecha_co) %}
-            {%- if key_tuple not in grouped_products %}
-            {%- set _ = grouped_products.update({key_tuple: []}) %}
-            {%- endif %}
-            {%- set _ = grouped_products[key_tuple].append(product) %}
-            {% endfor %}
-            {% for keys, productos in grouped_products.items() %}
-
-            <div class="col-lg-4">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <form action="/admin/cobranza" method="POST">
-                            <label for=""><input type="text" class="input-group-text" value="{{ keys[0] }}"
-                                    name="nombre" readonly></label>
-                            <label for="">
-                                <input type="text" class="input-group-text total" value="{{ keys[1] }}" name="total"
-                                    class="total">
+        <div class="col-lg-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <form action="/admin/cobranza" method="POST">
+                        <label for=""><input type="text" class="input-group-text" value="{{ keys[0] }}" name="nombre"
+                                readonly></label>
+                        <label for="">
+                            <input type="text" class="input-group-text total" value="{{ keys[1] }}" name="total"
+                                class="total">
+                        </label>
+                        <!-- Campos ocultos que se mostrarán cuando se haga clic en el botón "Mostrar más" -->
+                        <div class="moreFields" style="display: none;">
+                            <label for="">Fecha Pedido
+                                <label for="fecha_p"><input type="text" class="input-group-text" value="{{keys[2]}}"
+                                        name="fecha_p"></label>
                             </label>
-                            <!-- Campos ocultos que se mostrarán cuando se haga clic en el botón "Mostrar más" -->
-                            <div class="moreFields" style="display: none;">
-                                <label for="">Fecha Pedido
-                                    <label for="fecha_p"><input type="text" class="input-group-text" value="{{keys[2]}}"
-                                            name="fecha_p"></label>
+                            <label for="">Fecha de Cobranza
+                                <label for="fecha_co"><input type="text" class="input-group-text fecha"
+                                        value="{{keys[3]}}" name="fecha_co"></label>
+                            </label>
+                            <label for="">Abono
+                                <label for=""><input type="text" class="input-group-text abono" name="abono" required>
                                 </label>
-                                <label for="">Fecha de Cobranza
-                                    <label for="fecha_co"><input type="text" class="input-group-text fecha"
-                                            value="{{keys[3]}}" name="fecha_co"></label>
+                            </label>
+                            <label for="">Fecha del Abono
+                                <label for=""><input class="input-group-text" type="date" name="fecha_ab" required>
                                 </label>
-                                <label for="">Abono
-                                    <label for=""><input type="text" class="input-group-text abono" name="abono" required>
-                                    </label>
+                            </label>
+                            <label for=""> Suma Total - Abono
+                                <label for=""><input type="text" class="input-group-text resultado" name="resultado">
                                 </label>
-                                <label for="">Fecha del Abono
-                                    <label for=""><input class="input-group-text" type="date" name="fecha_ab" required>
-                                    </label>
-                                </label>
-                                <label for=""> Suma Total - Abono
-                                    <label for=""><input type="text" class="input-group-text resultado"
-                                            name="resultado">
-                                    </label>
-                                </label>
-                                <label for="">Estado de la Deuda
-                                    <select name="pagado" id="" class="input-group-text">
-                                        <option value="Abono">Abono</option>
-                                        <option value="Cancelado">Cancelado</option>
-                                    </select>
-                                </label>
-                            </div>
+                            </label>
+                            <label for="">Estado de la Deuda
+                                <select name="pagado" id="" class="input-group-text">
+                                    <option value="Abono">Abono</option>
+                                    <option value="Cancelado">Cancelado</option>
+                                </select>
+                            </label>
+                        </div>
 
-                            <button type="button" class="btn btn-info showMoreButton">Mostrar más</button>
-                            <br>
-                            <br>
+                        <button type="button" class="btn btn-info showMoreButton">Mostrar más</button>
+                        <br>
+                        <br>
 
-                            <button class="btn btn-primary" type="submit">Guardar</button>
-
-                        </form>
-                    </div>
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                        <a href="{{url_for('delete', product_nombre= keys[0])}}" class="eliminar btn btn-danger">Eliminar</a>
+                    </form>
                 </div>
             </div>
-            {% if loop.index % 3 == 0 %}
         </div>
-        <div class="row">
-            {% endif %}
-            {% endfor %}
-        </div>
+        {% if loop.index % 3 == 0 %}
     </div>
-
-</main>
+    <div class="row">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
 <script>
-
     // Este codigo sirve para que el boton mostrar mas se pueda visualizar bien 
     $(document).ready(function () {
         $('.showMoreButton').click(function () {
             $(this).prev('.moreFields').slideToggle();
+        });
+        $(".eliminar").click(function (event) {
+            if (!confirm("¿Estás seguro de que quieres eliminar?")) {
+                event.preventDefault();
+            }
         });
     });
     // Este codigo sirve para abonos 

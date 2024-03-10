@@ -1,28 +1,30 @@
 {% extends "admin/layout.html" %}
-
 {% block content %}
+<style>
+    .in{
+            
+        font-size: 14px;
+    }
+</style>    
 
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
-    <div class="cover">
-        <h1>Ingresado de Producto</h1>
-    </div>
+<div class="in container">
+    <p class="in">Ingreso de Productos</p>
     <br>
-    <div class="container">
         <form action="/admin/products" method="POST" id="myForm">
             <div class="container">
                 <label for="">Nombre del cliente</label>
 
-                <select name="nombre" class="form-control">
+                <select name="nombre" class=" in form-control">
                     {% for nombre in nombres %}
                     <option value="{{nombre['nombre']}}">{{nombre['nombre']}}</option>
                     {% endfor %}
                 </select>
                 <br>
                 <label for="">Fecha de Pedido</label>
-                <input type="date" class="form-control" name="fecha_p" placeholder="Fecha de Peticion">
+                <input type="date" class="in form-control" name="fecha_p" placeholder="Fecha de Peticion">
                 <br>
                 <label for="">Fecha de Cobranza</label>
-                <input type="date" class="form-control" name="fecha_co" placeholder="Fecha de Cobranza">
+                <input type="date" class="in form-control" name="fecha_co" placeholder="Fecha de Cobranza">
             </div>
 
             <br>
@@ -43,8 +45,8 @@
                     <input type="text" name="total" id="total" placeholder="Total">
                     <br>
                     <br>
-                    <button type="button" id="addButton" class="btn btn-primary ">Agregar Producto</button>
-                    <button type="button" class="btn btn-primary" id="openModalBtn">Enviar</button>
+                    <button type="button" id="addButton" class="in btn btn-primary ">Agregar Producto</button>
+                    <button type="button" class="in btn btn-primary" id="openModalBtn">Enviar</button>
                 </div>
             </div>
         </form>
@@ -57,10 +59,6 @@
                 <button type="button" id="confirmNoBtn">No</button>
             </div>
         </div>
-
-
-</main>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var openModalBtn = document.getElementById("openModalBtn");

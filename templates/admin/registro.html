@@ -1,94 +1,114 @@
 {% extends "admin/layout.html" %}
-
 {% block content %}
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
-    <div class="cover">
-        <h1>Administrador Registro de Usuarios</h1>
-    </div>
-    <form action="/admin/registro" method="POST" id="myForm">
-        <div class="form-group">
-            <br>
-            <input type="number"  id="miInput" onclick="limitarEntrada" name="cedula" class="form-control mb-3" placeholder="cedula" required autofocus>
-
-            <select name="rol" id="" class="form-control mb-3">
-                <option value="usuario">Usuario</option>
-            </select>
-            
-
-            <input type="email" name="correo" id="correo" class="form-control mb-3" placeholder="Correo" required autofocus>
-
-            <input type="text" name="user" class="form-control mb-3" placeholder="Nombre de Usuario" required autofocus>
-
-            <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" required
-                autofocus>
-            <button class="btn btn-lg btn-primary " type="submit" id="registerButton">Guardar Usuario</button>
+<style>
+    .in{
+        width: 350px; 
+        font-size: 14px;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-size: 16px;">
+                Ingreso de Usuarios
+            </div>
+            <div class="panel-body" style="font-size: 16px;">
+                <form action="/admin/registro" method="POST">
+                    <div class="form-group">
+                        <label for="nombre" >Cedula</label>
+                        <input type="text"  name="cedula"   id="miInput" onclick="limitarEntrada" class="in form-control"  placeholder="Ingresa tu cedula">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Rol</label>
+                        <input type="text" class="in form-control" value="usuario" name="rol"
+                            placeholder="Ingresa tu correo electrónico" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" class="in form-control" name="correo"
+                            placeholder="Ingresa tu correo electrónico">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nombre de Usuario</label>
+                        <input type="text" class="in form-control"  name="user"
+                            placeholder="Ingresa nombre de usuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Contraseña</label>
+                        <input type="password" class="in form-control" name="password"
+                            placeholder="Ingresa tu correo electrónico">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enviar</button>
+                </form>
+            </div>
         </div>
-    </form>
-</main>
+    </div>
+</div>
 <script>
     // Validacion si los campos estan vacios
-document.querySelector('form').onsubmit = function (e) {
-    var inputs = this.querySelectorAll('input');
-    var todosLlenos = true; // Asume que todos los campos están llenos
+    document.querySelector('form').onsubmit = function (e) {
+        var inputs = this.querySelectorAll('input');
+        var todosLlenos = true; // Asume que todos los campos están llenos
 
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value === '') {
-            todosLlenos = false; // Si un campo está vacío, establece todosLlenos en falso
-            break; // No necesitas verificar el resto de los campos, así que puedes salir del bucle
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].value === '') {
+                todosLlenos = false; // Si un campo está vacío, establece todosLlenos en falso
+                break; // No necesitas verificar el resto de los campos, así que puedes salir del bucle
+            }
+        }
+
+        if (!todosLlenos) {
+            e.preventDefault(); // Previene el envío del formulario
+            alert('Los campos estan vacios');
+        } else {
+            alert('Guardado exitosamente');
+        }
+    };
+
+    // Validadr lo que es la cedula no tiene para ver si esta en el gobierno
+    function validarCedula(cedula) {
+        // Verifica que tenga 10 caracteres y sea solo números
+        if (cedula.length === 10 && Number.isInteger(+cedula)) {
+            var digitos = cedula.split('').map(Number);
+            var ultimoDigito = digitos.pop();
+            var suma = digitos.reduce(function (acc, curr, i) {
+                var valor = (i % 2 === 0) ? curr * 2 : curr;
+                valor = (valor > 9) ? valor - 9 : valor;
+                return acc + valor;
+            }, 0);
+            var digitoVerificador = 10 - (suma % 10);
+            digitoVerificador = (digitoVerificador === 10) ? 0 : digitoVerificador;
+            return ultimoDigito === digitoVerificador;
+        } else {
+            return false;
         }
     }
 
-    if (!todosLlenos) {
-        e.preventDefault(); // Previene el envío del formulario
-        alert('Los campos estan vacios');
-    } else {
-        alert('Guardado exitosamente');
-    }
-};
+    document.querySelector('form').addEventListener('submit', function (e) {
+        var cedula = document.querySelector('input[name="cedula"]').value;
+        if (!validarCedula(cedula)) {
+            alert('La cédula ingresada no es válida');
+            e.preventDefault(); // Previene el envío del formulario
+        }
+    });
 
-// Validadr lo que es la cedula no tiene para ver si esta en el gobierno
-function validarCedula(cedula) {
-    // Verifica que tenga 10 caracteres y sea solo números
-    if (cedula.length === 10 && Number.isInteger(+cedula)) {
-        var digitos = cedula.split('').map(Number);
-        var ultimoDigito = digitos.pop();
-        var suma = digitos.reduce(function (acc, curr, i) {
-            var valor = (i % 2 === 0) ? curr * 2 : curr;
-            valor = (valor > 9) ? valor - 9 : valor;
-            return acc + valor;
-        }, 0);
-        var digitoVerificador = 10 - (suma % 10);
-        digitoVerificador = (digitoVerificador === 10) ? 0 : digitoVerificador;
-        return ultimoDigito === digitoVerificador;
-    } else {
-        return false;
+    // Validar Correo
+    function validarcorreo() {
+        let correo = document.getElementById('correo').value;
+        let regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        if (!regex.test(correo)) {
+            alert('Por favor, ingresa un correo válido');
+            return false;
+        }
     }
-}
 
-document.querySelector('form').addEventListener('submit', function (e) {
-    var cedula = document.querySelector('input[name="cedula"]').value;
-    if (!validarCedula(cedula)) {
-        alert('La cédula ingresada no es válida');
-        e.preventDefault(); // Previene el envío del formulario
+    function limitarEntrada() {
+        let x = document.getElementById("miInput");
+        if (x.value.length > 10) {
+            x.value = x.value.slice(0, 10);
+        }
     }
-});
-
-// Validar Correo
-function validarcorreo() {
-    let correo = document.getElementById('correo').value;
-    let regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
-    if (!regex.test(correo)) {
-        alert('Por favor, ingresa un correo válido');
-        return false;
-    }
-}
-
-function limitarEntrada() {
-    let x = document.getElementById("miInput");
-    if (x.value.length > 10) {
-        x.value = x.value.slice(0, 10);
-    }
-}
 </script>
 
 {% endblock %}

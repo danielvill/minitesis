@@ -1,131 +1,93 @@
 {% extends "admin/layout.html" %}
 {% block content %}
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-content">
-    <div class="cover">
-        <h1>Reporte</h1>
-    </div>
-    <br>
-    <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                viewBox="0 0 16 16">
-                <path
-                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-            </svg></span>
-        <input type="search" id="filtro" onkeyup="filtrar()" class="form-control" placeholder="Busqueda"
-            aria-label="Username" aria-describedby="addon-wrapping">
-    </div>
-    <br>
-    <div class="col-lg-0 container">
-        <Label>Total de Cobranzas</Label>
-        <input type="text" name="suma" id="totalSuma" readonly>
-        <Label>Total Abono</Label>
-        <input type="text" name="suma" id="totalSuma2" readonly>
-        <Label>Total de Saldos</Label>
-        <input type="text" name="suma" id="totalSuma3" readonly>
-    </div>
-    <br>
-    {% for r_reporte in cobranza %}
+<br>
+<div class="col-lg-0 container">
+    <Label>Total de Cobranzas</Label>
+    <input type="text" name="suma" id="totalSuma" readonly>
+    <Label>Total Abono</Label>
+    <input type="text" name="suma" id="totalSuma2" readonly>
+    <Label>Total de Saldos</Label>
+    <input type="text" name="suma" id="totalSuma3" readonly>
+</div>
+<br>
+<br>
+<div class="container">
+    <table id="myTable" class="table">
+        <thead>
+            <tr>
+                <th>Nonbre</th>
+                <th>total</th>
+                <th>Fecha De Pedido</th>
+                <th>Fecha Cobranza</th>
+                <th>Abono</th>
+                <th>Fecha Abono</th>
+                <th>Saldo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r_reporte in cobranza %}
+            <tr>
+                <form action="/admin/reporte" method="POST">
+                    <td>
+                        <input type="text" class="" value="{{r_reporte.nombre}}" name="nombre" hidden>
+                        {{r_reporte.nombre}}
+                    </td>
+                    <td>
+                        {{r_reporte.total}}
+                        <input type="text" class="inputClass" value="{{r_reporte.total}}" hidden>
+                    </td>
+                    <td>
+                        {{r_reporte.fecha_p}}
 
-    <div class="tabla">
+                    </td>
+                    <td>
+                        {{r_reporte.fecha_co}}
+                        <input type="text" value="{{r_reporte.fecha_co}}" name="fecha_co" class="" hidden>
+                    </td>
+                    <td>
+                        {{r_reporte.abono}}
+                        <input type="text" value="{{r_reporte.abono}}" class="inputClass2" hidden>
+                    </td>
+                    <td>
+                        {{r_reporte.fecha_ab}}
+                        <input type="text" value="{{r_reporte.fecha_ab}}" name="fecha_ab" hidden>
+                    </td>
+                    <td>
+                        {{r_reporte.resultado}}
+                        <input type="text" value="{{r_reporte.resultado}}" class="inputClass3" hidden>
+                    </td>
+                    <td>
+                        {{r_reporte.pagado}}
 
-        <table class="table">
-            <thead>
-                <th scope="col"><label for="">Nonbre</label></th>
-                <th><label for="">total</label></th>
-                <th><label for="">Fecha De Pedido</label></th>
-                <th><label for="">Fecha Cobranza</label></th>
-            </thead>
-            <tbody>
-
-                <td>
-                    <form action="/admin/reporte" method="post">
-                        <label for="">
-                            <input type="text" class="" value="{{r_reporte.nombre}}" name="nombre" readonly>
-                        </label>
-                </td>
-
-
-                <td>
-                    <label for="">
-                        <input type="text" class="inputClass" value="{{r_reporte.total}}" readonly>
-                    </label>
-                </td>
-
-
-                <td>
-                    <label for="">
-                        <input type="text" value="{{r_reporte.fecha_p}}" class="" readonly>
-                    </label>
-                </td>
-
-                <td>
-                    <label for="">
-                        <input type="text" value="{{r_reporte.fecha_co}}" name="fecha_co" class="" readonly>
-                    </label>
-                </td>
-
-            </tbody>
-
-
-            <thead>
-                <th><label for="">Abono</label></th>
-                <th><label for="">Fecha Abono</label></th>
-                <th><label for="">Saldo</label></th>
-                <th><label for="">Estado</label></th>
-            </thead>
-            <tbody>
-
-                <td>
-                    <label for="">
-                        <input type="text" value="{{r_reporte.abono}}" class="inputClass2" readonly>
-                    </label>
-                </td>
-
-
-                <td>
-                    <label for="">
-                        <input type="text" value="{{r_reporte.fecha_ab}}" name="fecha_ab" class="" readonly>
-                    </label>
-                </td>
-
-
-                <td>
-                    <label for="">
-                        <input type="text" value="{{r_reporte.resultado}}" class="inputClass3" readonly>
-                    </label>
-                </td>
-
-
-                <td>
-                    <label for="">
-                        <input type="text" value="{{r_reporte.pagado}}" class="" readonly>
-                    </label>
-                </td>
-
-            </tbody>
-        </table>
-        <button class="enviar btn-primary">Enviar</button>
-        </form>
-    </div>
-
-    <br>
-    {% endfor %}
-
-</main>
-<script src="/static/js/filtro.js"></script>
+                    </td>
+                    <td>
+                        <button type="submit" class="enviar btn-primary">Enviar</button>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 <script>
 
-    $(document).ready(function () {
-        $(".enviar").click(function (event) {
-            if (!confirm("¿Estás seguro de  enviarlo?")) {
-                event.preventDefault();
-            }
-        });
+    $(".enviar").click(function (event) {
+        if (!confirm("¿Estás seguro de que quieres enviar?")) {
+            event.preventDefault();
+        }
     });
+
     // Suma de los valores totales
     document.addEventListener('DOMContentLoaded', (event) => {
         // Obtén todos los inputs que contienen los valores a sumar
+        $('#myTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+            }
+        });
+        var table = $('#myTable').DataTable();
         let inputs = document.querySelectorAll('.inputClass');
 
 
@@ -144,7 +106,7 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         // Obtén todos los inputs que contienen los valores a sumar
         let inputs = document.querySelectorAll('.inputClass2');
-        
+
 
         let total = 0;
 
@@ -161,7 +123,6 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         // Obtén todos los inputs que contienen los valores a sumar
         let inputs = document.querySelectorAll('.inputClass3');
-        
 
         let total = 0;
 
@@ -174,7 +135,5 @@
         let totalInput = document.getElementById('totalSuma3');
         totalInput.value = total;
     });
-
 </script>
-
 {% endblock %}
