@@ -34,6 +34,7 @@
             <thead>
                 <tr>
                     <th><label for="telefono">Código</label></th>
+                    <th><label for="">Nombre del producto</label></th>
                     <th><label for="provincia">Cantidad</label></th>
                     <th><label for="precio">Precio</label></th>
                     <th><label for="resultado">Resultado</label></th>
@@ -43,6 +44,7 @@
                 <input type="hidden" value="{{product.nombre}}" name="nombre"></th>
                 <tr>
                     <th><input type="text" class="" value="{{ product.codigo }}" name="codigo" readonly></th>
+                    <th><input type="text" class="" value="{{ product.nombre_p }}" name="" readonly></th>
                     <th><input type="text" class="" value="{{ product.cantidad }}" name="cantidad" readonly></th>
                     <th><input type="text" class="" value="{{ product.precio }}" name="precio" readonly></th>
                     <th><input type="text" class="" value="{{ product.resultado }}" name="resultado" readonly></th>

@@ -1,5 +1,6 @@
 {% extends "admin/layout.html" %}
 {% block content %}
+
   <table id="myTable" class="table">
     <thead>
       <tr>
@@ -111,9 +112,22 @@
   // Este codigo es para preguntar antes de enviar a la base de datos para actualizar los valores o eliminar los botones
   $(document).ready(function () {
     $(".eliminar").click(function (event) {
-      if (!confirm("¿Estás seguro de que quieres eliminar?")) {
         event.preventDefault();
-      }
+        var url = $(this).attr('href'); // Guarda la URL del enlace
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¿Estás seguro de que quieres eliminar?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar!',
+            cancelButtonText: 'No, cancelar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url; // Navega a la URL del enlace
+            }
+        });
     });
   });
 

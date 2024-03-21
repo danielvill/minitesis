@@ -14,7 +14,6 @@
             </div>
             <div class="panel-body">
                 <form action="/admin/client" method="POST">
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -23,7 +22,6 @@
                                     placeholder="Ingresa tu nombre" style="font-size: 14px;">
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" style="font-size: 16px;">Telefono</label>
@@ -33,7 +31,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -59,7 +56,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" style="font-size: 16px;">Dirección</label>
@@ -67,7 +63,6 @@
                                     placeholder="Ingres su direccion" style="font-size: 14px;">
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" style="font-size: 16px;">Referencia</label>
@@ -96,13 +91,18 @@
                     <br>
                     <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enviar</button>
                 </form>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    {{ messages[0] }}
+                </div>
+                {% endif %}
+                {% endwith %}
             </div>
         </div>
     </div>
 </div>
-
 <script>
-    // Validacion si los campos estan vacios
     document.querySelector('form').onsubmit = function (e) {
         var inputs = this.querySelectorAll('input');
         var todosLlenos = true; // Asume que todos los campos están llenos
@@ -116,9 +116,11 @@
 
         if (!todosLlenos) {
             e.preventDefault(); // Previene el envío del formulario
-            alert('Los campos estan vacios');
-        } else {
-            alert('Enviado a la base de datos');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Los campos estan vacioss'
+            });
         }
     };
 
@@ -128,17 +130,23 @@
         var regex = /^09\d{8}$/; // Expresión regular para validar números de celular ecuatorianos
 
         if (!regex.test(telefono)) {
-            alert('Por favor, ingresa un número de celular  válido.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'El celular esta incorrecto'
+            });
             event.preventDefault(); // Evita que el formulario se envíe
         }
     });
-
-
     function validarEnlace() {
         let x = document.getElementById("mapa");
         let urlRegex = /^(http|https):\/\/[^ "]+$/; // Expresión regular para validar enlaces
         if (!urlRegex.test(x.value)) {
-            alert("Por favor, ingresa un enlace válido.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Agrega un enlace de manera correcta ejemplo  https://maps.app.goo.gl/JPMGFZDddFrT1WdF7'
+            });
             x.value = "";
         }
     }

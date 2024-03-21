@@ -2,7 +2,7 @@ $(document).ready(function () {
     let maxField = 20; // Número máximo de campos a agregar
     let addButton = $('#addButton'); // Selector del botón de agregar
     let wrapper = $('.productos'); // Contenedor de campo de entrada
-    let fieldHTML = '<div class="productos"><input type="text" name="codigo[]" class="codigo" placeholder="codigo"><input type="text" name="precio[]" class="precio" placeholder="precio"><input type="text" name="cantidad[]" class="cantidad" placeholder="cantidad"><input type="text" name="resultado[]" class="resultado" placeholder="resultado"><a href="javascript:void(0);" class="remove_button">Eliminar</a></div>'; // HTML del campo de entrada con un enlace para eliminar el campo
+    let fieldHTML = '<div class="productos"><input type="text" name="codigo[]" class="codigo" ><input type="text" name="nombre_p[]" class=" nombre_p" ><input type="text" name="precio[]" class="precio" ><input type="text" name="cantidad[]" class="cantidad" ><input type="text" name="resultado[]" class="resultado" ><a href="javascript:void(0);" class="remove_button">Eliminar</a></div>'; // HTML del campo de entrada con un enlace para eliminar el campo
     let x = 1; // Contador de campo inicial
 
     // Una vez que se hace clic en el botón de agregar
@@ -40,7 +40,7 @@ $(document).ready(function () {
         // Actualiza el campo "Total"
         $('#total').val(total);
     }
-     // Llama a la función cuando se cargue la página y cuando se realicen cambios
-     calcularTotal();
+    // Llama a la función cuando se cargue la página y cuando se realicen cambios
+    calcularTotal();
     $(wrapper).on('change', 'input', calcularTotal);
 });

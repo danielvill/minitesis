@@ -1,133 +1,175 @@
 {% extends "admin/layout.html" %}
 {% block content %}
 <style>
-    .in{
-            
+    .in {
         font-size: 14px;
     }
-</style>    
-
+</style>
 <div class="in container">
     <p class="in">Ingreso de Productos</p>
+    <a href="https://drive.google.com/drive/folders/1QXvt_WvsV1ZOf1_ywaomFoElBRDIwCln?usp=sharing"
+        class="btn btn-info">
+        Lista de Precio
+    </a>
     <br>
-        <form action="/admin/products" method="POST" id="myForm">
-            <div class="container">
-                <label for="">Nombre del cliente</label>
+    <br>
+    <form action="/admin/products" method="POST" id="myForm">
+        <div class="container">
+            <label for="">Nombre del cliente</label>
 
-                <select name="nombre" class=" in form-control">
-                    {% for nombre in nombres %}
-                    <option value="{{nombre['nombre']}}">{{nombre['nombre']}}</option>
-                    {% endfor %}
-                </select>
-                <br>
-                <label for="">Fecha de Pedido</label>
-                <input type="date" class="in form-control" name="fecha_p" placeholder="Fecha de Peticion">
-                <br>
-                <label for="">Fecha de Cobranza</label>
-                <input type="date" class="in form-control" name="fecha_co" placeholder="Fecha de Cobranza">
-            </div>
-
+            <select name="nombre" class=" in form-control">
+                {% for nombre in nombres %}
+                <option value="{{nombre['nombre']}}">{{nombre['nombre']}}</option>
+                {% endfor %}
+            </select>
             <br>
+            <label for="">Fecha de Pedido</label>
+            <input type="date" class="in form-control" name="fecha_p" placeholder="Fecha de Peticion">
             <br>
-            <div class="productos">
-                <input type="text" name="codigo[]" class=" codigo" placeholder="codigo">
-                <input type="text" name="precio[]" class=" precio" placeholder="precio">
-                <input type="text" name="cantidad[]" class=" cantidad" placeholder="cantidad">
-                <input type="text" name="resultado[]" class=" resultado" placeholder="resultado">
-                <a href="javascript:void(0);" class="remove_button">Eliminar</a>
-            </div>
-
-            <div class="form-row">
-                <div class="col-8"></div>
-                <div class="col-5">
-                    <br>
-                    <br>
-                    <input type="text" name="total" id="total" placeholder="Total">
-                    <br>
-                    <br>
-                    <button type="button" id="addButton" class="in btn btn-primary ">Agregar Producto</button>
-                    <button type="button" class="in btn btn-primary" id="openModalBtn">Enviar</button>
-                </div>
-            </div>
-        </form>
-
-        <!-- Ventana Modal -->
-        <div class="modal" id="confirmationModal">
-            <div class="modal-content">
-                <p>¿Está seguro de querer enviar el formulario?</p>
-                <button type="button" id="confirmYesBtn">Sí</button>
-                <button type="button" id="confirmNoBtn">No</button>
+            <label for="">Fecha de Cobranza</label>
+            <input type="date" class="in form-control" name="fecha_co" placeholder="Fecha de Cobranza">
+        </div>
+        <br>
+        <br>
+        <div class="productos">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre del Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Resultado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="codigo[]" class=" codigo">
+                        </td>
+                        <td>
+                            <input type="text" name="nombre_p[]" class=" nombre_p">
+                        </td>
+                        <td>
+                            <input type="text" name="precio[]" class=" precio">
+                        </td>
+                        <td>
+                            <input type="text" name="cantidad[]" class=" cantidad">
+                        </td>
+                        <td>
+                            <input type="text" name="resultado[]" class=" resultado">
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" class="remove_button">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-row">
+            <div class="col-8"></div>
+            <div class="col-5">
+                <br>
+                <br>
+                <input type="text" name="total" id="total" placeholder="Total">
+                <br>
+                <br>
+                <button type="button" id="addButton" class="in btn btn-primary ">Agregar Producto</button>
+                <button type="button" class="in btn btn-primary" id="openModalBtn">Enviar</button>
             </div>
         </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var openModalBtn = document.getElementById("openModalBtn");
-        var confirmationModal = document.getElementById("confirmationModal");
-        var confirmYesBtn = document.getElementById("confirmYesBtn");
-        var confirmNoBtn = document.getElementById("confirmNoBtn");
+    </form>
 
-        openModalBtn.addEventListener("click", function () {
-            // Verificar si los campos no están en blanco
-            if (camposNoEstanEnBlanco()) {
-                confirmationModal.style.display = "block";
-            } else {
-                alert("Por favor, rellena todos los campos antes de enviar.");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var openModalBtn = document.getElementById("openModalBtn");
+
+            openModalBtn.addEventListener("click", function () {
+                // Verificar si los campos no están en blanco
+                if (camposNoEstanEnBlanco()) {
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¿Deseas enviar el formulario?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById("myForm").submit();
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Por favor, rellena todos los campos antes de enviar.'
+                    });
+                }
+            });
+
+            confirmYesBtn.addEventListener("click", function () {
+                document.getElementById("myForm").submit();
+            });
+
+            confirmNoBtn.addEventListener("click", function () {
+                confirmationModal.style.display = "none";
+            });
+
+            function camposNoEstanEnBlanco() {
+                // Obtener los campos del formulario
+                var nombreCampo = document.getElementsByName("nombre")[0].value;
+                var fecha_pCampo = document.getElementsByName("fecha_p")[0].value;
+                var fecha_coCampo = document.getElementsByName("fecha_co")[0].value;
+                var codigoCampos = document.querySelectorAll('.codigo');
+                var precioCampos = document.querySelectorAll('.precio');
+                var cantidadCampos = document.querySelectorAll('.cantidad');
+
+                // Verificar si algún campo está en blanco
+                if (
+                    nombreCampo.trim() === "" ||
+                    fecha_pCampo.trim() === "" ||
+                    fecha_coCampo.trim() === "" ||
+                    Array.from(codigoCampos).some(campo => campo.value.trim() === "") ||
+                    Array.from(precioCampos).some(campo => campo.value.trim() === "") ||
+                    Array.from(cantidadCampos).some(campo => campo.value.trim() === "")
+                ) {
+                    return false; // Al menos un campo está en blanco
+                }
+                return true; // Todos los campos están llenos
             }
+            document.getElementsByName("fecha_co")[0].addEventListener("change", function () {
+                var fecha_p = new Date(document.getElementsByName("fecha_p")[0].value);
+                var fecha_co = new Date(this.value);
+                var diffTime = Math.abs(fecha_co - fecha_p);
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if (diffDays < 7) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'La fecha de cobranza debe ser al menos 7 días después de la fecha de pedido.'
+                    });
+                    this.value = "";
+                }
+            });
+            document.getElementsByName("fecha_p")[0].addEventListener("change", function () {
+                var fecha_p = new Date(document.getElementsByName("fecha_co")[0].value);
+                var fecha_co = new Date(this.value);
+                var diffTime = Math.abs(fecha_co - fecha_p);
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if (diffDays < 7) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'La fecha de pedido debe ser al menos 7 días diferentes a fecha de cobranza.'
+                    });
+                    this.value = "";
+                }
+            });
         });
-
-        confirmYesBtn.addEventListener("click", function () {
-            document.getElementById("myForm").submit();
-        });
-
-        confirmNoBtn.addEventListener("click", function () {
-            confirmationModal.style.display = "none";
-        });
-
-        function camposNoEstanEnBlanco() {
-            // Obtener los campos del formulario
-            var nombreCampo = document.getElementsByName("nombre")[0].value;
-            var fecha_pCampo = document.getElementsByName("fecha_p")[0].value;
-            var fecha_coCampo = document.getElementsByName("fecha_co")[0].value;
-            var codigoCampos = document.querySelectorAll('.codigo');
-            var precioCampos = document.querySelectorAll('.precio');
-            var cantidadCampos = document.querySelectorAll('.cantidad');
-
-            // Verificar si algún campo está en blanco
-            if (
-                nombreCampo.trim() === "" ||
-                fecha_pCampo.trim() === "" ||
-                fecha_coCampo.trim() === "" ||
-                Array.from(codigoCampos).some(campo => campo.value.trim() === "") ||
-                Array.from(precioCampos).some(campo => campo.value.trim() === "") ||
-                Array.from(cantidadCampos).some(campo => campo.value.trim() === "")
-            ) {
-                return false; // Al menos un campo está en blanco
-            }
-            return true; // Todos los campos están llenos
-        }
-        document.getElementsByName("fecha_co")[0].addEventListener("change", function () {
-            var fecha_p = new Date(document.getElementsByName("fecha_p")[0].value);
-            var fecha_co = new Date(this.value);
-            var diffTime = Math.abs(fecha_co - fecha_p);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays < 7) {
-                alert("La fecha de cobranza debe ser al menos 7 días después de la fecha de pedido.");
-                this.value = "";
-            }
-        });
-        document.getElementsByName("fecha_p")[0].addEventListener("change", function () {
-            var fecha_p = new Date(document.getElementsByName("fecha_co")[0].value);
-            var fecha_co = new Date(this.value);
-            var diffTime = Math.abs(fecha_co - fecha_p);
-            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays < 7) {
-                alert("La fecha de pedido debe ser al menos 7 días diferentes a fecha de cobranza.");
-                this.value = "";
-            }
-        });
-
-    });
-
-</script>
-<script src="/static/js/product.js"></script>
-{% endblock %}
+    </script>
+    <script src="/static/js/product.js"></script>
+    {% endblock %}

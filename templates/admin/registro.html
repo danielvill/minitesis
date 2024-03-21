@@ -1,8 +1,8 @@
 {% extends "admin/layout.html" %}
 {% block content %}
 <style>
-    .in{
-        width: 350px; 
+    .in {
+        width: 350px;
         font-size: 14px;
     }
 </style>
@@ -15,8 +15,9 @@
             <div class="panel-body" style="font-size: 16px;">
                 <form action="/admin/registro" method="POST">
                     <div class="form-group">
-                        <label for="nombre" >Cedula</label>
-                        <input type="text"  name="cedula"   id="miInput" onclick="limitarEntrada" class="in form-control"  placeholder="Ingresa tu cedula">
+                        <label for="nombre">Cedula</label>
+                        <input type="text" name="cedula" id="miInput" onclick="limitarEntrada" class="in form-control"
+                            placeholder="Ingresa tu cedula">
                     </div>
                     <div class="form-group">
                         <label for="email">Rol</label>
@@ -30,8 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Nombre de Usuario</label>
-                        <input type="text" class="in form-control"  name="user"
-                            placeholder="Ingresa nombre de usuario">
+                        <input type="text" class="in form-control" name="user" placeholder="Ingresa nombre de usuario">
                     </div>
                     <div class="form-group">
                         <label for="">Contraseña</label>
@@ -40,6 +40,13 @@
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary" style="font-size: 16px;">Enviar</button>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ messages[0] }}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
                 </form>
             </div>
         </div>
@@ -60,9 +67,11 @@
 
         if (!todosLlenos) {
             e.preventDefault(); // Previene el envío del formulario
-            alert('Los campos estan vacios');
-        } else {
-            alert('Guardado exitosamente');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Los campos estan vacioss'
+            });
         }
     };
 
@@ -88,21 +97,27 @@
     document.querySelector('form').addEventListener('submit', function (e) {
         var cedula = document.querySelector('input[name="cedula"]').value;
         if (!validarCedula(cedula)) {
-            alert('La cédula ingresada no es válida');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'La cedula esta incorrecta'
+            });
             e.preventDefault(); // Previene el envío del formulario
         }
     });
 
-    // Validar Correo
     function validarcorreo() {
         let correo = document.getElementById('correo').value;
-        let regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        let regex = /^[\w-]+(\.[\w-]+)*@[\w-]+\.[a-zA-Z]{2,7}$/;
         if (!regex.test(correo)) {
-            alert('Por favor, ingresa un correo válido');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Ingresa un correo valido'
+            });
             return false;
         }
     }
-
     function limitarEntrada() {
         let x = document.getElementById("miInput");
         if (x.value.length > 10) {

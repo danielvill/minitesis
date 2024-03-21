@@ -80,12 +80,21 @@ def addRegistros():
     user = request.form['user']
     password = request.form['password']
 
-    if cedula and rol and correo and user and password:
-        registro = Registro(cedula,rol ,correo, user, password)
-        registros.insert_one(registro.toDBCollection())
-        return redirect(url_for('regi'))
+    existing_cedula = registros.find_one({'cedula': cedula})
+    existing_user = registros.find_one({'user': user})
+
+    if existing_cedula:
+        flash("Ya existe un usuario con esa cedula")
+        return render_template('admin/registro.html')
+    elif existing_user:
+        flash("Ya existe un usuario con ese nombre de usuario")
+        return render_template('admin/registro.html')
     else:
-        return notFound()
+        registro = Registro(cedula, rol, correo, user, password)
+        registros.insert_one(registro.toDBCollection())
+        flash("Guardado en la base de datos")
+        return redirect(url_for('regi'))
+    
 
 #* Muestra de los usuarios registrados
 @app.route('/admin/v_user')
@@ -142,13 +151,23 @@ def client():
         referencia = request.form['referencia']
         comentario = request.form['comentario']
         
+        existing_nombre = clientes.find_one({'nombre':nombre})
+        existing_telefono = clientes.find_one({'telefono':telefono})
+        
+        if existing_nombre:
+            flash("Ya existe ese nombre")
+            return render_template('admin/client.html')
+            
+        elif existing_telefono:
+            flash("Ya existe ese telefono")
+            return render_template('admin/client.html')
 
-        if nombre and telefono and provincia and canton and direccion and referencia and mapa and comentario :
+        else :
             client = Client(nombre, telefono, provincia,canton,direccion,referencia,mapa,comentario)
             clientes.insert_one(client.cliDBCollection())
+            flash("Se envio a la base de datos")
             return redirect(url_for('client'))#Este es para que se quede en la misma pagina
-        else:
-            return notFound()
+        
     else:
         # Aquí va tu código para manejar el GET
         return render_template('admin/client.html')
@@ -207,7 +226,7 @@ def products():
 
 
 # Modificación en addProduct
-@app.route('/admin/products', methods=['POST'])
+@app.route('/admin/products', methods=['POST', 'GET'])
 def addProduct():
     # Verifica si el usuario está en la sesión
     if 'username' not in session:
@@ -217,6 +236,7 @@ def addProduct():
     products = db['products']
     nombre_cliente = request.form.get('nombre')
     codigos = request.form.getlist('codigo[]')
+    nombre_p = request.form.getlist('nombre_p[]')
     cantidades = request.form.getlist('cantidad[]')
     precios = request.form.getlist('precio[]')
     resultados = request.form.getlist('resultado[]')
@@ -226,13 +246,13 @@ def addProduct():
 
     
     # Validar que se proporcionen datos
-    if nombre_cliente and codigos and cantidades and precios and resultados and total and fecha_p and fecha_co:
+    if nombre_cliente and codigos and nombre_p and cantidades and precios and resultados and total and fecha_p and fecha_co:
         # Crear una lista de productos para el cliente
         productos_cliente = []
 
-        for codigo, cantidad, precio, resultado in zip(codigos, cantidades, precios, resultados):
-            if codigo and cantidad and precio and resultado:
-                producto = Product(nombre_cliente, codigo, precio, cantidad, resultado, total,fecha_p,fecha_co)
+        for codigo, nombre_p,cantidad, precio, resultado in zip(codigos, nombre_p, cantidades, precios, resultados):
+            if codigo and nombre_p and cantidad and precio and resultado:
+                producto = Product(nombre_cliente, codigo, nombre_p,precio, cantidad, resultado, total,fecha_p,fecha_co)
                 productos_cliente.append(producto.proDBCollection())
 
         # Insertar todos los productos del cliente en la base de datos
@@ -410,12 +430,22 @@ def user_client():
         referencia = request.form['referencia']
         comentario = request.form['comentario']
 
-        if nombre and telefono and provincia and canton and direccion and referencia and mapa and comentario :
+        existing_nombre = clientes.find_one({'nombre':nombre})
+        existing_telefono = clientes.find_one({'telefono':telefono})
+        
+        if existing_nombre:
+            flash("Ya existe ese nombre")
+            return render_template('user/client.html')
+            
+        elif existing_telefono:
+            flash("Ya existe ese telefono")
+            return render_template('user/client.html')
+
+        else :
             client = Client(nombre, telefono, provincia,canton,direccion,referencia,mapa,comentario)
             clientes.insert_one(client.cliDBCollection())
-            return redirect(url_for('user_client'))#Este es para que se quede en la misma pagina
-        else:
-            return notFound()
+            flash("Se envio a la base de datos")
+            return redirect(url_for('user_client'))
     else:
         # Aquí va tu código para manejar el GET
         return render_template('user/client.html')
@@ -440,6 +470,7 @@ def user_product():
     nombres = select.find({}, {'nombre': 1})
     nombre_cliente = request.form.get('nombre')
     codigos = request.form.getlist('codigo[]')
+    nombre_p = request.form.getlist('nombre_p[]')
     cantidades = request.form.getlist('cantidad[]')
     precios = request.form.getlist('precio[]')
     resultados = request.form.getlist('resultado[]')
@@ -447,13 +478,15 @@ def user_product():
     fecha_p = request.form.get('fecha_p')
     fecha_co =request.form.get('fecha_co')
     # Validar que se proporcionen datos
-    if nombre_cliente and codigos and cantidades and precios and resultados and total and fecha_p and fecha_co:
+    if nombre_cliente and codigos and nombre_p and cantidades and precios and resultados and total and fecha_p and fecha_co:
         # Crear una lista de productos para el cliente
         productos_cliente = []
-        for codigo, cantidad, precio, resultado in zip(codigos, cantidades, precios, resultados):
-            if codigo and cantidad and precio and resultado:
-                producto = Product(nombre_cliente, codigo, precio, cantidad, resultado, total,fecha_p,fecha_co)
+
+        for codigo, nombre_p,cantidad, precio, resultado in zip(codigos, nombre_p, cantidades, precios, resultados):
+            if codigo and nombre_p and cantidad and precio and resultado:
+                producto = Product(nombre_cliente, codigo, nombre_p,precio, cantidad, resultado, total,fecha_p,fecha_co)
                 productos_cliente.append(producto.proDBCollection())
+
         # Insertar todos los productos del cliente en la base de datos
         products.insert_many(productos_cliente)
         return redirect(url_for('user_product'))

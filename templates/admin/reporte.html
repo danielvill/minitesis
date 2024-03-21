@@ -40,7 +40,6 @@
                     </td>
                     <td>
                         {{r_reporte.fecha_p}}
-
                     </td>
                     <td>
                         {{r_reporte.fecha_co}}
@@ -60,7 +59,6 @@
                     </td>
                     <td>
                         {{r_reporte.pagado}}
-
                     </td>
                     <td>
                         <button type="submit" class="enviar btn-primary">Enviar</button>
@@ -72,12 +70,26 @@
     </table>
 </div>
 <script>
-
-    $(".enviar").click(function (event) {
-        if (!confirm("¿Estás seguro de que quieres enviar?")) {
-            event.preventDefault();
-        }
+    document.querySelectorAll('form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Estás seguro de querer enviarlo?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, enviar!',
+                cancelButtonText: 'No, cancelar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
+        });
     });
+
 
     // Suma de los valores totales
     document.addEventListener('DOMContentLoaded', (event) => {
@@ -89,15 +101,11 @@
         });
         var table = $('#myTable').DataTable();
         let inputs = document.querySelectorAll('.inputClass');
-
-
         let total = 0;
-
         // Recorre cada input y suma su valor al total
         for (let i = 0; i < inputs.length; i++) {
             total += Number(inputs[i].value);
         }
-
         // Encuentra el input donde quieres mostrar el resultado y asigna el total a su valor
         let totalInput = document.getElementById('totalSuma');
         totalInput.value = total;
@@ -106,15 +114,11 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         // Obtén todos los inputs que contienen los valores a sumar
         let inputs = document.querySelectorAll('.inputClass2');
-
-
         let total = 0;
-
         // Recorre cada input y suma su valor al total
         for (let i = 0; i < inputs.length; i++) {
             total += Number(inputs[i].value);
         }
-
         // Encuentra el input donde quieres mostrar el resultado y asigna el total a su valor
         let totalInput = document.getElementById('totalSuma2');
         totalInput.value = total;
@@ -123,14 +127,11 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         // Obtén todos los inputs que contienen los valores a sumar
         let inputs = document.querySelectorAll('.inputClass3');
-
         let total = 0;
-
         // Recorre cada input y suma su valor al total
         for (let i = 0; i < inputs.length; i++) {
             total += Number(inputs[i].value);
         }
-
         // Encuentra el input donde quieres mostrar el resultado y asigna el total a su valor
         let totalInput = document.getElementById('totalSuma3');
         totalInput.value = total;

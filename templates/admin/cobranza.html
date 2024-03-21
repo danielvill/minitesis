@@ -11,6 +11,7 @@
         aria-label="Username" aria-describedby="addon-wrapping">
 </div>
 <br>
+
 <div class="container">
     <div class="row">
         {% set grouped_products = {} %}
@@ -22,10 +23,10 @@
         {%- set _ = grouped_products[key_tuple].append(product) %}
         {% endfor %}
         {% for keys, productos in grouped_products.items() %}
-
         <div class="col-lg-4">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
+
                     <form action="/admin/cobranza" method="POST">
                         <label for=""><input type="text" class="input-group-text" value="{{ keys[0] }}" name="nombre"
                                 readonly></label>
@@ -67,9 +68,11 @@
                         <br>
                         <br>
 
-                        <button class="btn btn-primary" type="submit">Guardar</button>
-                        <a href="{{url_for('delete', product_nombre= keys[0])}}" class="eliminar btn btn-danger">Eliminar</a>
+                        <button class="editar btn btn-primary" type="submit">Guardar</button>
+                        <a href="{{url_for('delete', product_nombre= keys[0])}}"
+                            class="eliminar btn btn-danger">Eliminar</a>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -82,16 +85,61 @@
 </div>
 <script>
     // Este codigo sirve para que el boton mostrar mas se pueda visualizar bien 
-    $(document).ready(function () {
-        $('.showMoreButton').click(function () {
-            $(this).prev('.moreFields').slideToggle();
-        });
-        $(".eliminar").click(function (event) {
-            if (!confirm("¿Estás seguro de que quieres eliminar?")) {
-                event.preventDefault();
+    // Validacion si los campos estan vacios
+    document.querySelectorAll('form').forEach(function (form) {
+        form.onsubmit = function (e) {
+            var inputs = this.querySelectorAll('input');
+            var todosLlenos = true; // Asume que todos los campos están llenos
+
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value === '') {
+                    todosLlenos = false; // Si un campo está vacío, establece todosLlenos en falso
+                    break; // No necesitas verificar el resto de los campos, así que puedes salir del bucle
+                }
+            }
+
+            if (todosLlenos) {
+                e.preventDefault(); // Previene el envío del formulario
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¿Quieres enviar a este cliente?",
+                    icon: 'sucess',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, enviar!',
+                    cancelButtonText: 'No, cancelar!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Envía el formulario si el usuario confirma
+                    }
+                });
+            }
+        };
+    });
+
+    $('.showMoreButton').click(function () {
+        $(this).prev('.moreFields').slideToggle();
+    });
+    $(".eliminar").click(function (event) {
+        event.preventDefault();
+        var url = $(this).attr('href'); // Guarda la URL del enlace
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¿Estás seguro de que quieres eliminar?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar!',
+            cancelButtonText: 'No, cancelar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url; // Navega a la URL del enlace
             }
         });
     });
+
     // Este codigo sirve para abonos 
     document.getElementsByName("fecha_ab")[0].addEventListener("change", function () {
         var fecha_p = new Date(document.getElementsByName("fecha_p")[0].value);
@@ -104,12 +152,20 @@
 
         // Comprueba si fecha_ab es igual a fecha_p
         if (diffDays_p < 7) {
-            alert("No se debe ingresar esa fecha");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No se debe ingresar esa fecha'
+            });
             this.value = "";
         }
         // Comprueba si fecha_ab es menor o igual a fecha_co
         else if (diffDays_co === 0) {
-            alert("La fecha debe ser mayor que Fecha Cobranza");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'La fecha debe ser mayor a fecha cobranza'
+            });
             this.value = "";
         }
     });
