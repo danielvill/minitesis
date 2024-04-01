@@ -140,35 +140,40 @@
         });
     });
 
-    // Este codigo sirve para abonos 
-    document.getElementsByName("fecha_ab")[0].addEventListener("change", function () {
-        var fecha_p = new Date(document.getElementsByName("fecha_p")[0].value);
-        var fecha_co = new Date(document.getElementsByName("fecha_co")[0].value);
-        var fecha_ab = new Date(this.value);
+    window.addEventListener('DOMContentLoaded', (event) => {
+    var fecha_ab_elements = document.getElementsByName("fecha_ab");
+    for (var i = 0; i < fecha_ab_elements.length; i++) {
+        fecha_ab_elements[i].addEventListener("change", function () {
+            var fecha_p = new Date(this.closest('form').querySelector("[name='fecha_p']").value);
+            var fecha_co = new Date(this.closest('form').querySelector("[name='fecha_co']").value);
+            var fecha_ab = new Date(this.value);
 
-        // Calcula la diferencia en días entre las fechas
-        var diffDays_p = Math.ceil(Math.abs(fecha_ab - fecha_p) / (1000 * 60 * 60 * 24));
-        var diffDays_co = Math.ceil(Math.abs(fecha_ab - fecha_co) / (1000 * 60 * 60 * 24));
+            // Calcula la diferencia en días entre las fechas
+            var diffDays_p = Math.ceil(Math.abs(fecha_ab - fecha_p) / (1000 * 60 * 60 * 24));
+            var diffDays_co = Math.ceil(Math.abs(fecha_ab - fecha_co) / (1000 * 60 * 60 * 24));
 
-        // Comprueba si fecha_ab es igual a fecha_p
-        if (diffDays_p < 7) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'No se debe ingresar esa fecha'
-            });
-            this.value = "";
-        }
-        // Comprueba si fecha_ab es menor o igual a fecha_co
-        else if (diffDays_co === 0) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'La fecha debe ser mayor a fecha cobranza'
-            });
-            this.value = "";
-        }
-    });
+            // Comprueba si fecha_ab es igual a fecha_p
+            if (diffDays_p < 7) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'No se debe ingresar esa fecha'
+                });
+                this.value = "";
+            }
+            // Comprueba si fecha_ab es menor o igual a fecha_co
+            else if (diffDays_co === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'La fecha debe ser mayor a fecha cobranza'
+                });
+                this.value = "";
+            }
+        });
+    }
+});
+
 </script>
 <script src="/static/js/cobranza.js"></script>
 <script src="/static/js/re_co.js"></script>

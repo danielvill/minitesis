@@ -6,6 +6,5 @@ Collection name para mongodb
 admin
 clientes
 cobranza
-estadistica
 products
 registros

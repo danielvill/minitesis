@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>Mi aplicación Flask</title>
   <link href="/static/css/bootstrap.css" rel="stylesheet">
@@ -52,11 +51,14 @@
     <nav class="navbar-default navbar-side" role="navigation">
       <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
+          <li>
+            <a href="{{ url_for('logout') }}">Salir</a>
+          </li>
           <li class="active-link">
             <a href="./registro"><i class="fa fa-desktop "></i>Registro de Usuarios<span class="badge"></span></a>
           </li>
           <li>
-            <a href="./v_user"><i class="fa fa-user "></i>Vista User <span class="badge"></span></a>
+            <a href="./v_user"><i class="fa fa-user "></i>Vista Usuarios<span class="badge"></span></a>
           </li>
           <li>
             <a href="./client"><i class="fa fa-edit "></i>Registro de Clientes <span class="badge"></span></a>
@@ -77,12 +79,8 @@
           <li>
             <a href="./reporte"><i class="fa fa-edit "></i>Reporte </a>
           </li>
-          <li>
-            <a href="./stadist"><i class="fa fa-bar-chart-o "></i>Estudio de Morosidad </a>
-          </li>
-          <li>
-            <a href="{{ url_for('logout') }}">Salir</a>
-          </li>
+          <br>
+         
         </ul>
       </div>
     </nav>

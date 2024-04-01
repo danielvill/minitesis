@@ -388,24 +388,7 @@ def env_esta():
     else:
         return render_template('admin/reporte.html')
     
-# *Modulo de Estadistica
-@app.route('/admin/stadist')
-def estadistica():
-    #* Verifica si el usuario está en la sesión
-    if 'username' not in session:
-        flash("Inicia sesion con tu usuario y contraseña")
-        return redirect(url_for('index'))  #* Redirige al usuario al inicio si no está en la sesión
-    report=db.estadistica.find()
-    return render_template('admin/stadist.html',estadistica=report)
 
-
-#*Modulo eliminacion de Estadistica
-
-@app.route('/delest/<string:esta_nombre>')
-def delest(esta_nombre):
-    estadistica = db['estadistica']
-    estadistica.delete_one({'nombre': esta_nombre})
-    return redirect(url_for('estadistica'))
 
 
 

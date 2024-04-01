@@ -7,8 +7,7 @@
 </style>
 <div class="in container">
     <p class="in">Ingreso de Productos</p>
-    <a href="https://drive.google.com/drive/folders/1QXvt_WvsV1ZOf1_ywaomFoElBRDIwCln?usp=sharing"
-        class="btn btn-info">
+    <a href="https://drive.google.com/drive/folders/1QXvt_WvsV1ZOf1_ywaomFoElBRDIwCln?usp=sharing" class="btn btn-info">
         Lista de Precio
     </a>
     <br>
@@ -80,11 +79,11 @@
             </div>
         </div>
     </form>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var openModalBtn = document.getElementById("openModalBtn");
-
+            var confirmYesBtn = document.getElementById("confirmYesBtn"); // Asegúrate de que este es el ID correcto
+            var confirmNoBtn = document.getElementById("confirmNoBtn"); // Asegúrate de que este es el ID correcto
             openModalBtn.addEventListener("click", function () {
                 // Verificar si los campos no están en blanco
                 if (camposNoEstanEnBlanco()) {
@@ -110,15 +109,12 @@
                     });
                 }
             });
-
             confirmYesBtn.addEventListener("click", function () {
                 document.getElementById("myForm").submit();
             });
-
             confirmNoBtn.addEventListener("click", function () {
                 confirmationModal.style.display = "none";
             });
-
             function camposNoEstanEnBlanco() {
                 // Obtener los campos del formulario
                 var nombreCampo = document.getElementsByName("nombre")[0].value;
@@ -127,7 +123,6 @@
                 var codigoCampos = document.querySelectorAll('.codigo');
                 var precioCampos = document.querySelectorAll('.precio');
                 var cantidadCampos = document.querySelectorAll('.cantidad');
-
                 // Verificar si algún campo está en blanco
                 if (
                     nombreCampo.trim() === "" ||
@@ -141,12 +136,16 @@
                 }
                 return true; // Todos los campos están llenos
             }
-            document.getElementsByName("fecha_co")[0].addEventListener("change", function () {
+            
+        });
+
+        document.getElementsByName("fecha_co")[0].addEventListener("change", function () {
                 var fecha_p = new Date(document.getElementsByName("fecha_p")[0].value);
                 var fecha_co = new Date(this.value);
                 var diffTime = Math.abs(fecha_co - fecha_p);
                 var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                 if (diffDays < 7) {
+                    console.log("La condición se cumplió");
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -169,7 +168,6 @@
                     this.value = "";
                 }
             });
-        });
     </script>
     <script src="/static/js/product.js"></script>
     {% endblock %}

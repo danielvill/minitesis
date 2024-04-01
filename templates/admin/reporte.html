@@ -23,7 +23,7 @@
                 <th>Fecha Abono</th>
                 <th>Saldo</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
             <tr>
                 <form action="/admin/reporte" method="POST">
                     <td>
-                        <input type="text" class="" value="{{r_reporte.nombre}}" name="nombre" hidden>
+                       
                         {{r_reporte.nombre}}
                     </td>
                     <td>
@@ -43,7 +43,7 @@
                     </td>
                     <td>
                         {{r_reporte.fecha_co}}
-                        <input type="text" value="{{r_reporte.fecha_co}}" name="fecha_co" class="" hidden>
+                        
                     </td>
                     <td>
                         {{r_reporte.abono}}
@@ -51,7 +51,7 @@
                     </td>
                     <td>
                         {{r_reporte.fecha_ab}}
-                        <input type="text" value="{{r_reporte.fecha_ab}}" name="fecha_ab" hidden>
+                        
                     </td>
                     <td>
                         {{r_reporte.resultado}}
@@ -60,15 +60,15 @@
                     <td>
                         {{r_reporte.pagado}}
                     </td>
-                    <td>
-                        <button type="submit" class="enviar btn-primary">Enviar</button>
-                    </td>
+                 
                 </form>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
+<canvas id="myChart"></canvas>
 <script>
     document.querySelectorAll('form').forEach(function (form) {
         form.addEventListener('submit', function (e) {
@@ -89,8 +89,6 @@
             })
         });
     });
-
-
     // Suma de los valores totales
     document.addEventListener('DOMContentLoaded', (event) => {
         // Obtén todos los inputs que contienen los valores a sumar
@@ -136,5 +134,47 @@
         let totalInput = document.getElementById('totalSuma3');
         totalInput.value = total;
     });
+    
+    window.onload = function() {
+    var table = document.getElementById("myTable");
+    var rows = table.getElementsByTagName("tr");
+    var nombres = [];
+    var dias = [];
+    for (var i = 1; i < rows.length; i++) {
+        var nombre = rows[i].cells[0].innerText;
+        var fecha_co = new Date(rows[i].cells[3].innerText);
+        var fecha_ab = new Date(rows[i].cells[5].innerText);
+        var diff = Math.floor((fecha_ab - fecha_co) / (1000 * 60 * 60 * 24));
+        var newCell = rows[i].insertCell(-1);
+        newCell.innerHTML = '<input type="text" value="' + diff + '" hidden>';
+        if (diff > 15) {
+            nombres.push(nombre);
+            dias.push(diff);
+        }
+    }
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: nombres,
+            datasets: [{
+                label: 'Días',
+                data: dias,
+                backgroundColor: 'rgba(149,184,209)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
 </script>
 {% endblock %}
