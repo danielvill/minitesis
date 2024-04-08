@@ -4,7 +4,7 @@ from modules.client import Client
 from modules.registro import Registro
 from modules.product import Product
 from modules.cobranza import Cobranza
-from modules.stadist import Estadistica
+
 
 
 db = dbase()

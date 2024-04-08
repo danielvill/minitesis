@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Mi aplicación Flask</title>
   <link href="/static/css/bootstrap.css" rel="stylesheet">
@@ -27,27 +28,32 @@
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .contenedor {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .imagen {
+      width: 200px;
+      height: 100px;
+    }
+
+    .texto {
+      font-size: 60px;
+      font-weight: bold;
+      margin-left: 20px;
+      color: rgb(220, 88, 42);
+    }
+  </style>
 </head>
+
 <body>
   <div id="wrapper">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="adjust-nav">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">
-
-          </a>
-        </div>
-        <span class="logout-spn" style="width: auto;">
-
-        </span>
-      </div>
+    <div class="contenedor">
+      <h1 class="texto">SISTEMA COBRYAN ADMINISTRADOR</h1>
     </div>
-    <!-- /. NAV TOP  -->
     <nav class="navbar-default navbar-side" role="navigation">
       <div class="sidebar-collapse">
         <ul class="nav" id="main-menu">
@@ -80,7 +86,6 @@
             <a href="./reporte"><i class="fa fa-edit "></i>Reporte </a>
           </li>
           <br>
-         
         </ul>
       </div>
     </nav>
