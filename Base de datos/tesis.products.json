@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "66199edf745f516c8311126d"
+  },
+  "nombre": "Edilma Gallardo",
+  "codigo": "245",
+  "nombre_p": "Adrenaline  Eu de Toilete",
+  "precio": "18.60",
+  "cantidad": "1",
+  "resultado": "18.6",
+  "total": "18.6",
+  "fecha_p": "2024-04-08",
+  "fecha_co": "2024-04-15"
+},
+{
+  "_id": {
+    "$oid": "6619a108745f516c8311126f"
+  },
+  "nombre": "Flor Marquez Garcia ",
+  "codigo": "61609",
+  "nombre_p": "Osadia de Hombre",
+  "precio": "22.75",
+  "cantidad": "1",
+  "resultado": "22.75",
+  "total": "22.75",
+  "fecha_p": "2024-04-08",
+  "fecha_co": "2024-04-15"
+}]

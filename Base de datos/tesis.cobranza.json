@@ -1,0 +1,26 @@
+[{
+  "_id": {
+    "$oid": "6619a1e4745f516c83111271"
+  },
+  "nombre": "Lady Bravo",
+  "total": "9",
+  "fecha_p": "2024-04-08",
+  "fecha_co": "2024-04-15",
+  "abono": "9",
+  "fecha_ab": "2024-04-16",
+  "resultado": "0",
+  "pagado": "Cancelado"
+},
+{
+  "_id": {
+    "$oid": "6619a2e7745f516c83111274"
+  },
+  "nombre": "Eslinda Valarezo",
+  "total": "145",
+  "fecha_p": "2024-04-08",
+  "fecha_co": "2024-04-15",
+  "abono": "145",
+  "fecha_ab": "2024-04-16",
+  "resultado": "0",
+  "pagado": "Cancelado"
+}]

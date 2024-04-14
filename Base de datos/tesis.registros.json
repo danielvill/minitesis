@@ -1,0 +1,10 @@
+[{
+  "_id": {
+    "$oid": "66199cb7745f516c8311126a"
+  },
+  "cedula": "0704473230",
+  "rol": "usuario",
+  "correo": "danie@hotmail.com",
+  "user": "Daniel Villacres",
+  "password": "1234"
+}]
