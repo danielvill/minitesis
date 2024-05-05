@@ -127,16 +127,7 @@
                 title: 'Oops...',
                 text: 'Los campos estan vacioss'
             });
-        } else {
-            e.preventDefault(); // Previene el envío del formulario
-            Swal.fire({
-                icon: 'success',
-                title: 'Muy bien ',
-                text: 'Se envia a la base de datos .'
-            }).then(() => {
-                this.submit(); // Envía el formulario después de que se muestre el mensaje
-            });
-        }
+        } 
     };
 
     // Validacion de numero telefonico

@@ -1,9 +1,18 @@
-from flask import flash, Flask, session,render_template, request,Response ,jsonify, redirect, url_for
+from flask import flash, Flask, send_file, session,render_template, request,Response ,jsonify, redirect, url_for
 from controllers.database import dbConnection as dbase
 from modules.client import Client
 from modules.registro import Registro
 from modules.product import Product
 from modules.cobranza import Cobranza
+from reportlab.pdfgen import canvas # *pip install reportlab
+from reportlab.lib.pagesizes import letter #* pip install reportlab 
+from markupsafe import escape
+from reportlab.lib.units import inch
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle, Spacer ,Image
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet ,ParagraphStyle
 
 
 
@@ -364,6 +373,15 @@ def reporte():
     report=db.cobranza.find()
     return render_template('admin/reporte.html',cobranza=report)
     
+# * Eliminar EN Reporte
+@app.route('/delete_reporte/<string:client_user>')
+def del_reporte(client_user):#Pasa la funcion al form osea al boton
+    user = db['cobranza']
+    user.delete_one({'nombre' : client_user})
+    return redirect(url_for('reporte'))
+
+
+
 
 #* Enviar modulo reporte a estadistica
 
@@ -389,6 +407,131 @@ def env_esta():
         return render_template('admin/reporte.html')
     
 
+# Reporte para pdf 
+
+def generar_pdf_reporte(datos):
+    doc = SimpleDocTemplate("reporte.pdf", pagesize=letter)
+    story = []
+
+    # Define un estilo con texto centrado
+    styles = getSampleStyleSheet()
+    left_aligned_style = styles['Heading3']
+    left_aligned_style.alignment = 0  # 0 = TA_LEFT
+
+
+    
+    # Agrega la imagen
+    imagen = Image('static/img/yanbal.png', width=250, height=150)
+    imagen.hAlign = 'CENTER'
+    story.append(imagen)
+    #story.append(Spacer(1, 12))
+
+    from datetime import datetime
+    fecha_hora = datetime.now().strftime("Documento generado %H:%M")
+    fecha_hora_parrafo = Paragraph(fecha_hora , left_aligned_style)
+    fecha_hora_parrafo.alignment = 1  # 2 = TA_RIGHT
+    story.append(fecha_hora_parrafo)
+    # Agrega un salto de línea
+    #story.append(Spacer(1, 12))
+    
+    # Agrega el título
+    title = Paragraph("<h3>Reporte de cobranzas </h3>", left_aligned_style)
+    story.append(title)
+
+    # Agrega un salto de línea
+    #story.append(Spacer(1, 12))
+
+    title2 = Paragraph("<h1>Directora Raquel Maria Coronel Quezada</h1>", left_aligned_style)
+    story.append(title2)
+
+    
+    title3 = Paragraph("<h3>Machala grupo 2584</h3>", left_aligned_style)
+    story.append(title3)
+    story.append(Spacer(1, 12))
+    
+    # Prepara los datos para la tabla
+    data = [["nombre", "total", "fecha_ab", "resultado","pagado"]]  # Encabezados
+
+    for dato in datos:
+        row = [dato['nombre'], dato['total'], dato['fecha_ab'], dato['resultado'],dato ['pagado'] ]
+        data.append(row)
+
+    # Crea la tabla
+    table = Table(data, colWidths=[100, 100, 100, 100]) 
+
+    # Formatea la tabla
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.black),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 14),
+
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+        ('GRID', (0,0), (-1,-1), 1, colors.black)
+    ]))
+
+    # Agrega la tabla al documento
+    story.append(table)
+
+    doc.build(story)
+
+@app.route('/admin/reporte/re_reporte', methods=['GET'])
+def re_reporte():
+    doc = SimpleDocTemplate("reporte.pdf", pagesize=letter)
+    story = []
+
+    # Define un estilo con texto centrado
+    styles = getSampleStyleSheet()
+    left_aligned_style = styles['Heading3']
+    left_aligned_style.alignment = 0  # 1 = TA_CENTER
+
+    # Agrega la imagen
+    imagen = Image('static/img/yanbal.png', width=250, height=150)
+    imagen.hAlign = 'LEFT'
+    story.append(imagen)
+    story.append(Spacer(1, 12))
+
+    from datetime import datetime
+    fecha_hora = datetime.now().strftime("Documento generado %H:%M")
+    fecha_hora_parrafo = Paragraph(fecha_hora , left_aligned_style)
+    fecha_hora_parrafo.alignment = 1  # 2 = TA_RIGHT
+    story.append(fecha_hora_parrafo)
+    # Agrega un salto de línea
+    
+    
+    
+    # Agrega el título
+    title = Paragraph("<h3>Reporte de cobranzas </h3>", left_aligned_style)
+    story.append(title)
+
+    # Agrega un salto de línea
+    
+
+    title2 = Paragraph("<h1>Directora Raquel Maria Coronel Quezada</h1>", left_aligned_style)
+    #story.append(title2)
+
+    # Agrega otro salto de línea
+    
+
+    title3 = Paragraph("<h3>Machala grupo 2584</h3>", left_aligned_style)
+    story.append(title3)
+    story.append(Spacer(1, 12))
+
+    # Prepara los datos no como tabla
+    client = request.args.get('nombre', default=None, type=str)
+    
+    
+    if client is not None:
+        clie = db['cobranza'].find({'nombre': client})
+    else:
+        clie = db['cobranza'].find()
+    
+    generar_pdf_reporte(clie)
+    
+    return send_file('reporte.pdf', as_attachment=True)
 
 
 
