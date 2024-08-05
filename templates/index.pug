@@ -1,0 +1,33 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/index.css">
+    
+        title Login
+    body 
+    
+    // Aqui comienza la parte de lo que es el del login para lo que es el incio del sistem
+    <form action="/index" method="POST" class="text-center" style="width: 300px;">
+        <img class="mb-4" src="/static/img/logo.png" alt="" width="100" height="100">
+        <h1 class="h3 mb-3 font-weight-normal">Por favor inicia sesión</h1>
+        <input type="text" name="user" class="form-control mb-3" placeholder="Usuario" >
+        <input type="password" name="password" class="form-control mb-3" placeholder="Contraseña" >
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </form>
+    
+    
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+    
