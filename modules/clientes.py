@@ -1,5 +1,6 @@
 class Clientes:
-    def __init__(self, nombre, telefono, provincia,canton,direccion,referencia,mapa,comentario):
+    def __init__(self,id_cliente, nombre, telefono, provincia,canton,direccion,referencia,mapa,comentario):
+        self.id_client = id_cliente
         self.nombre = nombre
         self.telefono = telefono
         self.provincia = provincia
@@ -11,6 +12,7 @@ class Clientes:
 
     def clientesDBCollection(self):
         return{
+            "id_cliente":self.id_cliente,
             'nombre': self.nombre,
             'telefono': self.telefono,
             'provincia': self.provincia,
@@ -19,6 +21,4 @@ class Clientes:
             'referencia': self.referencia,
             'mapa': self.mapa,
             'comentario': self.comentario
-            
-
         }
