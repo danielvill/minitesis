@@ -1,4 +1,5 @@
 class Deudas:
+    
     def __init__(self, codigo ,valor_deuda, deuda, fecha_limite):
         self.codigo = codigo
         self.valor_deuda = valor_deuda

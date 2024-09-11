@@ -1,4 +1,5 @@
 class Clientes:
+    # Estos datos son importantes pero no todos los datos seran necesarios
     def __init__(self,id_cliente, nombre, telefono, provincia,canton,direccion,referencia,mapa,comentario):
         self.id_client = id_cliente
         self.nombre = nombre

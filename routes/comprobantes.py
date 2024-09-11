@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, flash, session, jsonify, redirect, url_for 
 from controllers.database import Conexion as dbase
-from modules.cobranza import Cobranzas
+from modules.comprobantes import Comprobantes
 from pymongo import MongoClient
 db = dbase()
-cobranza = Blueprint("cobranza",__name__)
+comprobante = Blueprint("comprobante",__name__)
 
 

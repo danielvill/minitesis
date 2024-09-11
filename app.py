@@ -12,8 +12,6 @@ from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle, 
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet ,ParagraphStyle
 # todo: pip install pypugjs   instala este paquete
- 
-
 
 db = dbase()
 
